@@ -144,9 +144,11 @@ export const useUserStore = defineStore('user', () => {
 }
 ```
 
+## 注意事项
+- 少使用 `any` 类型，多定义 TS 类型
+
 ## 禁止事项
 - ❌ 不使用 Options API，统一用 `<script setup>`
-- ❌ 不使用 `any` 类型，必须定义 TS 类型
 - ❌ 组件不直接写在 views 根目录，必须按板块分层
 - ❌ 不在组件内直接写 axios，必须通过 `src/api/` 封装
 - ❌ 样式不写内联，使用 SCSS + Tailwind
