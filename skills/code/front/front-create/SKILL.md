@@ -1,6 +1,6 @@
 ---
 name: front-create
-description: 创建或搭建前端项目、生成项目脚手架、创建页面/组件/路由/store/api文件时使用。用户提到"新建项目"、"搭建前端"、"创建页面"、"加一个路由"、"写一个组件"、"配置 pinia"、"写 api 接口"等场景都应触发此 skill。即使用户没有明确说"前端项目"，只要涉及 Vue3 文件结构或代码生成，也应使用此 skill。
+description: 创建或搭建前端项目、生成项目脚手架、创建页面/组件/路由/store/api文件时使用。用户提到"新建项目"、"搭建前端""配置 pinia"、"写 api 接口"等场景都应触发此 skill。
 ---
 
 ## 核心目标
@@ -28,13 +28,13 @@ src/
 ├── router/          # 路由配置
 ├── store/           # Pinia store 模块
 ├── views/           # 页面（见"视图结构规范"）
+├── views/layouts/   # 布局组件
 ├── api/             # 请求封装
 ├── types/           # TS 类型定义
 ├── utils/           # 工具函数
 ├── assets/          # 静态资源
 ├── components/      # 全局公共组件
 ├── plugins/         # 插件配置（如 i18n）
-├── layouts/         # 布局组件
 ├── main.ts          # 入口文件
 ├── App.vue          # 根组件
 └── style.scss       # 全局样式
