@@ -35,7 +35,7 @@ description: 当用户需要进行业务实体抽象、领域模型设计、ER �
 
 # 二、单个实体文档标准结构（强制）
 
-```md
+
 # 实体名称（中文 + 英文）
 
 ## 1. 实体定义
@@ -58,6 +58,7 @@ description: 当用户需要进行业务实体抽象、领域模型设计、ER �
 | 属性名 | 中文名 | 类型 | 必填 | 默认值 | 示例 | 说明 |
 |--------|--------|------|------|--------|------|------|
 
+
 ## 4. 核心主键
 - 主键：
 - 唯一键：
@@ -71,21 +72,21 @@ description: 当用户需要进行业务实体抽象、领域模型设计、ER �
 | 1:N      |          |          |
 | N:N      |          |          |
 
-## 6. 状态字段
+## 状态字段
 | 状态字段 | 状态值 | 含义 |
 
 
-## 8. 安全规则
+## 安全规则
 - 脱敏字段：
 - 禁止更新字段：
 - 审计字段：
 
 
-## 10. 数据库映射建议
+## 数据库映射建议
 - 表名：
 - 索引建议：
 - 分区建议：
-````
+
 
 # 三、实体设计原则
 
@@ -111,8 +112,6 @@ description: 当用户需要进行业务实体抽象、领域模型设计、ER �
 * 组合关系（Composition）
 
 ## 要求
-
-* 必须标注外键字段
 * 必须说明依赖方向
 * 必须说明删除策略：
   * CASCADE
@@ -146,104 +145,31 @@ description: 当用户需要进行业务实体抽象、领域模型设计、ER �
 * pre_order_total_amt
 * video_play_avg_duration
 
-# 六、命名词典维护（docs/naming.md）
-
-## 1. 前缀表（修饰业务场景）
-
-| 前缀     | 含义 | 示例             |
-| ------ | -- | -------------- |
-| pre_   | 前置 | pre_order_amt  |
-| post_  | 后置 | post_sale_cnt  |
-| live_  | 直播 | live_user_cnt  |
-| video_ | 视频 | video_play_cnt |
-| temp_  | 临时 | temp_file_path |
-| ext_   | 扩展 | ext_info_json  |
-
-## 2. 词根表（核心业务对象）
-
-| 词根      | 含义   |
-| ------- | ---- |
-| user    | 用户   |
-| order   | 订单   |
-| product | 产品   |
-| sku     | 库存单元 |
-| live    | 直播   |
-| video   | 视频   |
-| media   | 媒体   |
-| brand   | 品牌   |
-
-## 3. 后缀表（字段性质）
-
-| 后缀      | 含义      | 示例           |
-| ------- | ------- | ------------ |
-| _id     | 主键/关联ID | user_id      |
-| _no     | 编号      | order_no     |
-| _cnt    | 数量      | order_cnt    |
-| _inc    | 增量      | fans_inc     |
-| _total  | 总量      | sales_total  |
-| _avg    | 平均值     | stay_avg     |
-| _amt    | 金额      | order_amt    |
-| _rate   | 比率      | refund_rate  |
-| _pct    | 百分比     | profit_pct   |
-| _at     | 时间      | created_at   |
-| _date   | 日期      | stat_date    |
-| _flag   | 标记      | enable_flag  |
-| _status | 状态      | order_status |
-| _type   | 类型      | source_type  |
-
-## 4. 保留规则
-
-* JSON字段：`*_json`
-* 枚举字段：`*_type`
-* 状态字段：`*_status`
-* 时间字段：
-  * 时间点：`*_at`
-  * 日期：`*_date`
+> 注意: 请参考`docs/naming.md`的前缀、词根、后缀进行命名
 
 
-# 七、字段分类标准
 
-## 标准字段层级
-
-* 基础字段（id/name/type/status）
-* 业务字段（订单、用户、产品）
-* 统计字段（cnt/avg/total）
-* 审计字段（created/updated）
-* 扩展字段（ext/json）
-
-# 八、禁止事项
+# 禁止事项
 
 * 禁止同义字段并存：
 
   * ❌ user_id / uid
 * 禁止无单位金额：
-
   * ❌ price
   * ✅ price_amt
 * 禁止时间歧义：
-
   * ❌ time
   * ✅ created_at
 * 禁止布尔模糊：
-
   * ❌ enable
   * ✅ is_enabled
 
-# 九、交付物
-
-输出必须包含：
-
+# 交付物
 * 实体文档（docs/entity/*.md）
-* naming.md
-* enum.md
-* er.md
-* index.md
-* change-log.md
 
-# 十、最终目标
 
+# 最终目标
 通过该规范可直接支撑：
-
 * 原型分析
 * 数据库建模
 * 建表 SQL
