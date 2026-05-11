@@ -25,20 +25,43 @@ description: 创建或搭建前端项目、生成项目脚手架、创建页面/
 ## 项目目录结构
 ```
 src/
-├── router/          # 路由配置
-├── store/           # Pinia store 模块
-├── views/           # 页面（见"视图结构规范"）
-├── views/layouts/   # 布局组件
-├── api/             # 请求封装
-├── types/           # TS 类型定义
-├── utils/           # 工具函数
+├── api/             # 请求接口（按 controller 拆分）
 ├── assets/          # 静态资源
 ├── components/      # 全局公共组件
+├── constants/       # 常量信息（Enum、全局常量等）
+├── directives/      # 自定义指令
+│   ├── debounce.ts
+│   ├── index.ts
+│   └── permission.ts
+├── lib/             # 第三方库（可选）
+├── mock/            # Mock 接口数据
 ├── plugins/         # 插件配置（如 i18n）
-├── main.ts          # 入口文件
+├── router/          # 路由配置（按业务拆分）
+├── store/           # Pinia（按业务拆分）
+├── themes/          # 主题样式（可选）
+├── types/           # TS 类型定义
+├── utils/           # 工具函数
+├── views/           # 页面目录（按模块划分）
+│   ├── layouts/     # 系统布局（Layout）
+│   ├── login/       # 登录页
+│   ├── employee/    # employee 模块
+│   │   ├── components/
+│   │   ├── employee-add.vue
+│   │   ├── employee-list.vue
+│   │   ├── employee-update.vue
+│   │   └── index.scss
+│   └── role/        # role 模块
+│       ├── components/
+│       │   └── RoleForm.vue
+│       ├── index.scss
+│       ├── role-add.vue
+│       ├── role-list.vue
+│       └── role-update.vue
 ├── App.vue          # 根组件
+├── main.ts          # 入口文件
 └── style.scss       # 全局样式
 ```
+
 
 ## 布局结构
 
@@ -51,35 +74,13 @@ src/
 - **右侧内容区** (Main)，使用 `<router-view />` 渲染
 ```
 ┌──────────────── Header ────────────────┐
-│ logo | nav | userInfo                  │
+│ logo | nav |                  userInfo │
 ├──── Sidebar ────┬────  Main ───────────┤
 │ menu            │ breadcrumb           │
 │ menu            │ router-view          │
 │ collapse        │                      │
 └────────────────────────────────────────┘
 ```
-
-## 视图目录规范
-
-层级：**板块 > 页面 > 组件**
-
-```
-views/
-└── user/                        # 板块目录（小写连字符）
-    ├── list/                    # 页面目录（小写连字符）
-    │   ├── index.vue            # 页面入口（必须有）
-    │   └── components/          # 页面级组件
-    │       └── UserTable/
-    │           └── index.vue
-    └── components/              # 板块级公共组件
-        └── UserForm/
-            └── index.vue
-```
-
-规则：
-- 板块/页面目录名：小写连字符（kebab-case），如 `order-detail`
-- 组件目录名：大驼峰（PascalCase），如 `UserTable`
-- 每个组件目录下有 `index.vue` 作为入口
 
 ## 代码规范
 
