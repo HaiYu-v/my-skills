@@ -6,7 +6,7 @@ description: 当前后端 API 接口设计、OpenAPI/Swagger 文档生成、REST
 # 核心目标
 围绕“接口”作为系统边界，统一完成以下内容：
 - OpenAPI 3.0 YAML文档生成 生成到 `@docs/api`
-- 生成相关的实体的建表sql语句到 `@docs/sql`
+- 参考相关的实体的建表sql语句 `@docs/sql`
 - 前端 API 请求层（api/*.ts）生成
   - RESTful API 路由设计
   - 使用request.ts 请求封装规范, 如果没有, 请告知而不是创建
