@@ -5,35 +5,20 @@ description: 当前后端 API 接口设计、OpenAPI/Swagger 文档生成、REST
 
 # 核心目标
 围绕“接口”作为系统边界，统一完成以下内容：
-- OpenAPI 3.0 YAML / Swagger 文档生成
-- RESTful API 路由设计与资源抽象
+- OpenAPI 3.0 YAML文档生成 生成到 `@docs/api`
+- 生成相关的实体的建表sql语句到 `@docs/sql`
 - 前端 API 请求层（api/*.ts）生成
-- request.ts 请求封装规范
-- 后端 Controller / Service / DTO / VO 骨架生成
-- Request / Response 参数结构定义
+  - RESTful API 路由设计
+  - 使用request.ts 请求封装规范, 如果没有, 请告知而不是创建
+- 后端 Controller / DTO / VO 骨架生成
+  - Request / Response 参数结构定义
+  - 仅创建接口, 定义好入参,返回值, 不实现具体逻辑
 - 分页、筛选、排序接口规范
 - 状态码 / 错误码 / 异常结构统一
 - 字段命名与数据格式统一
 - 前后端联调一致化
 
----
 
-# 默认技术栈
-## 前端
-- Vue3
-- TypeScript
-- Vite
-- Axios（request 二次封装）
-- Pinia（如涉及状态）
-- Element Plus / Ant Design Vue（如涉及管理后台）
-
-## 后端（自动适配用户项目）
-优先识别：
-- Java Spring Boot
-- PHP（Yii2 / Laravel）
-- Node.js（NestJS / Express）
-
----
 
 # 输入识别
 当用户提供以下任一信息时触发：
@@ -140,7 +125,6 @@ src/
 ### Java Spring Boot
 src/main/java/.../
 ├── controller/
-├── service/
 ├── service/impl/
 ├── dto/request/
 ├── dto/response/
@@ -149,14 +133,12 @@ src/main/java/.../
 
 ### PHP Yii2 / Laravel
 ├── controllers/
-├── services/
 ├── dto/
 ├── models/
 └── validators/
 
 ### Node NestJS
 ├── controller/
-├── service/
 ├── dto/
 └── entity/
 
