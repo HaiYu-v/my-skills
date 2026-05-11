@@ -1,5 +1,5 @@
 ---
-name: sql-ddl-generator
+name: sql-ddl-create
 description: |
   为后端开发和数据库设计人员生成建表 DDL SQL 语句。当用户需要建表、设计表结构、生成 CREATE TABLE 语句，或描述业务实体要求输出 SQL 时，必须使用此 skill。支持 ClickHouse 和 MySQL 两种数据库，输出带中文注释的规范 DDL，并按模块/实体组织到 @docs/sql 目录。即使用户只说"帮我建个表"、"设计一下这个表结构"、"写个建表语句"也要触发此 skill。
 ---
