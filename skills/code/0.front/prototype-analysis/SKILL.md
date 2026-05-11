@@ -79,28 +79,6 @@ description: 当用户提供界面原型（HTML / 截图 / 线框图 / 图片转
 - 状态样式（hover / active / disabled）
 - Tailwind / SCSS建议
 
-### 4. Props
-- data
-- value
-- loading
-- options
-
-### 5. Emits
-- search
-- submit
-- change
-- delete
-
-### 6. 内部状态
-- activeTab
-- formData
-- selectedRows
-
-### 7. 生命周期
-- onMounted
-- watch
-- computed
-
 ---
 
 ## 四、组件关系（Component Relationships）
