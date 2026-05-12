@@ -1,6 +1,6 @@
 ---
 name: vue-front-create
-description: 创建或搭建Vue前端项目、生成项目脚手架、创建页面/组件/路由/store文件时使用。
+description: 创建或搭建Vue前端项目、生成项目脚手架、创建页面/界面/组件/路由/store文件时使用。
 ---
 
 ## 核心目标
