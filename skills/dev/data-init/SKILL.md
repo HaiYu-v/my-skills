@@ -136,3 +136,46 @@ DB_CONFIG = {        # OUTPUT_MODE='db' 时使用
 - UNIQUE 字段使用 `fake.unique.xxx()` 或手动保证唯一性
 - 自增主键不需要手动生成（SQL 模式除外，SQL 中需要显式写入以维持外键引用）
 
+
+## 数据库操作
+- clickhouse 使用 `from base_module import BaseCK`
+- mysql 使用 `from base_module import BaseMS`
+
+### BaseCK
+``` py
+from base_module import BaseCK
+db_list = {
+    'ck_21': {
+        'host': ip,
+        'port': 端口, 
+        'user': 账号,
+        'passwd': 密码,
+        'db': 库名,
+    },
+}
+class CK(BaseCK):
+    def __init__(self, dbname):
+        config = db_list.get(str(dbname))
+        super().__init__(config)
+```
+
+### BaseMS
+``` py
+from base_module import BaseMS
+
+db_list = {
+    # MySQL ------------------------
+    '11': {
+        'host': ip,
+        'port': 端口,
+        'user': 账号,
+        'passwd': 密码,
+        'db': 库名,
+        'charset': 'utf8mb4'
+    }, 
+}
+class MS(BaseMS):
+    def __init__(self, dbname):
+        config = db_list.get(str(dbname))
+        super().__init__(config)
+```
