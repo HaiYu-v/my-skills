@@ -105,6 +105,8 @@ COMMENT '店铺信息表';
 - 有唯一业务约束的字段加 `UNIQUE KEY`
 - 高频查询字段加普通索引 `KEY`
 
+> 注意: clickhouse 不需要update_time
+
 ### MySQL 示例
 ```sql
 -- 创建用户信息表

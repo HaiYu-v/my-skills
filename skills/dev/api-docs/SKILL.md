@@ -154,12 +154,7 @@ POST /resources/batch-delete
 
 * 查询用 GET
 * 新增用 POST
-* 全量更新用 PUT
-* 局部更新用 PATCH
 * 删除用 DELETE
-* 禁止动词型 URL（如 /getUserList）
-* 优先资源化命名
-
 ---
 
 
