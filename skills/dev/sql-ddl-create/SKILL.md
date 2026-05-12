@@ -110,7 +110,9 @@ COMMENT '店铺信息表';
 
 
 ### 默认值
-- JSON: (JSON_ARRAY())
+- JSON: JSON_ARRAY()
+- update_time: CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+- create_time: CURRENT_TIMESTAMP
 
 
 ### MySQL 示例
