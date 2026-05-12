@@ -1,6 +1,6 @@
 ---
-name: front-create
-description: 创建或搭建前端项目、生成项目脚手架、创建页面/组件/路由/store/api文件时使用。用户提到"新建项目"、"搭建前端""配置 pinia"、"写 api 接口"等场景都应触发此 skill。
+name: vue-front-create
+description: 创建或搭建Vue前端项目、生成项目脚手架、创建页面/组件/路由/store/api文件时使用。
 ---
 
 ## 核心目标
@@ -107,23 +107,6 @@ src/
 </style>
 ```
 
-### API 模块（src/api/）
-```ts
-// src/api/user.ts
-import request from '@/utils/request'
-
-export function searchUserApi(data: {
-    search: string
-    platform_id: number
-    region_id: number
-}) {
-    return request({
-        url: '/backend/creator-analysis/search-user',
-        method: 'post',
-        data
-    })
-}
-```
 
 ### Pinia Store
 ```ts
