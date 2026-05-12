@@ -125,13 +125,11 @@ src/main/java/.../
 ├── controller/
 │   └── {Entity}Controller.java
 └── model/
-    ├── dto/{entity}/
+    ├── {entity}/
     │   ├── {Entity}QueryReq.java
     │   ├── {Entity}CreateReq.java
     │   ├── {Entity}UpdateReq.java
     │   └── {Entity}Resp.java
-    └── entity/
-        └── {Entity}.java
 ```
 
 **Controller 骨架：**
@@ -290,7 +288,6 @@ async def delete_{entity}(id: int):
 ---
 
 ## 输出要求
-
 - 必须输出完整目录结构
 - 代码可直接复制使用
 - 仅生成骨架，不实现业务逻辑
