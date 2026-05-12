@@ -1,255 +1,185 @@
 ---
 name: data-init
-description: 使用 Python faker 库生成测试数据的 skill。当用户需要为数据库生成测试/假数据、初始化数据、seed 数据，或提到 faker、测试数据、mock 数据、数据填充时，必须使用此 skill。尤其适用于有实体关系（一对多、多对多）的场景，需要保证外键引用正确性。
+description: 使用 Python faker 库生成测试数据的 skill。当用户需要为数据库生成测试数据、seed 数据、mock 数据、数据填充、初始化数据，或提到 faker、造数据时，必须使用此 skill。尤其适用于有实体关系（一对多、多对多）的场景，能保证外键引用正确性。即使用户只是说"帮我生成一些测试数据"也应触发此 skill。
 ---
 
-
-## 我的要求
-- 每个表生成100~1000条数据
-- 定义好CK或MS, ip等信息由我自己来填
-
 # Faker 测试数据生成器
+
+## 约定
+
+- 每张表生成 **100~1000 条**数据（视表的重要性决定，主表多、关联表适量）
+- 数据库连接信息（host、port、账号密码）**由用户自己填写**，脚本中留占位注释
+- 输出目录：`docs/init/`，每张表一个文件 `seed_{table_name}.py` + 主入口 `seed_all.py`
+
+---
 
 ## 工作流程
 
 ### 第一步：读取项目文档
 
-按以下顺序读取文档，**不要跳过**：
+按顺序读取，**不可跳过**：
 
-1. **读取实体关系图** (`@docs/entity` 目录下所有文件)
-   - 识别所有实体（表）
-   - 梳理关系类型：一对一、一对多、多对多
-   - 确定外键依赖顺序（哪些表必须先生成）
+1. **实体关系图**（`docs/entity/` 目录所有文件）
+   - 识别所有实体（表）及关系类型：一对一、一对多、多对多
+   - 确定外键依赖顺序
 
-2. **读取 SQL 表结构** (`@docs/sql` 目录下所有文件)
-   - 记录每张表的字段名、类型、约束（NOT NULL、UNIQUE、DEFAULT 等）
-   - 记录枚举值、长度限制
-   - 注意自增主键 vs UUID 主键
+2. **SQL 表结构**（`docs/sql/` 目录所有文件）
+   - 记录字段名、类型、约束（NOT NULL、UNIQUE、DEFAULT）
+   - 注意枚举值、长度限制、主键类型（自增 vs UUID）
 
 ### 第二步：分析依赖顺序
 
-构建生成顺序，原则：**被依赖的表先生成**
+**被依赖的表先生成**，多对多中间表最后生成。
 
 ```
-示例依赖链：
-users → orders → order_items
-         ↑
-      products
+示例：users → orders → order_items
+                ↑
+            products
 ```
-
-多对多中间表最后生成，依赖两端表都生成完毕。
 
 ### 第三步：编写生成脚本
 
-**输出目录**：`docs/init/`
-
-**文件命名规范**：
-- 每张表一个文件：`seed_{table_name}.py`
-- 主入口文件：`seed_all.py`（按依赖顺序调用各脚本）
-
-**代码规范**：
+**脚本模板**：
 
 ```python
 from faker import Faker
 import random
-import json
-from datetime import datetime, timedelta
 
-fake = Faker('zh_CN')  # 根据项目语言选择，国际化项目用 ['zh_CN', 'en_US']
-Faker.seed(42)         # 固定随机种子，保证可重复性
+fake = Faker('zh_CN')  # 国际化项目用 ['zh_CN', 'en_US']
+Faker.seed(42)
 random.seed(42)
 
-BATCH_SIZE = 1000      # 批量插入大小，避免内存溢出
-TARGET_COUNT = 10000   # 每表目标行数
+TARGET_COUNT = 500  # 按表调整，100~1000
+BATCH_SIZE = 500    # 批量插入大小
 ```
 
-**外键处理策略**：
-- 先生成父表数据，将生成的 ID 列表保存到变量/文件
-- 子表生成时从父表 ID 列表中 `random.choice()` 取值
-- 多对多中间表：从两端各取 ID，注意去重避免唯一约束冲突
+**外键处理**：先生成父表并保存 ID 列表，子表用 `random.choice()` 引用：
 
 ```python
-# 示例：保存已生成的 ID 供子表使用
 generated_user_ids = []
 
-def seed_users():
-    users = []
+def seed_users(db):
+    rows = []
     for i in range(1, TARGET_COUNT + 1):
-        users.append({
-            'id': i,
-            'name': fake.name(),
-            'email': fake.unique.email(),
-            ...
-        })
+        rows.append([i, fake.name(), fake.unique.email()])
         generated_user_ids.append(i)
-    return users
+    db.execute("INSERT INTO users (id, name, email) VALUES (%s, %s, %s)", rows)
 ```
 
-**数据真实性要求**：
-- 枚举字段：使用 `random.choice([...])` 从实际枚举值中选取
-- 金额字段：`round(random.uniform(min, max), 2)`
-- 时间字段：保证 `created_at <= updated_at`，时间范围合理（近 2 年内）
-- 状态流转字段：保证逻辑一致（如订单状态与支付状态匹配）
-
-**多对多处理**：
+**多对多中间表**：用 `set` 去重避免唯一约束冲突：
 
 ```python
-# 示例：user_roles 中间表，避免重复组合
-def seed_user_roles(user_ids, role_ids):
+def seed_user_roles(db, user_ids, role_ids):
     pairs = set()
-    records = []
+    rows = []
     target = min(TARGET_COUNT, len(user_ids) * len(role_ids))
-    
     while len(pairs) < target:
         pair = (random.choice(user_ids), random.choice(role_ids))
         if pair not in pairs:
             pairs.add(pair)
-            records.append({'user_id': pair[0], 'role_id': pair[1]})
-    return records
+            rows.append(list(pair))
+    db.execute("INSERT INTO user_roles (user_id, role_id) VALUES (%s, %s)", rows)
 ```
 
-### 第四步：生成主入口文件
+**数据真实性要求**：
+- 枚举字段：`random.choice(['active', 'inactive', ...])`
+- 金额字段：`round(random.uniform(10, 9999), 2)`
+- 时间字段：保证 `created_at <= updated_at`，范围在近 2 年内
+- 状态联动字段：保证业务逻辑一致（如订单状态与支付状态匹配）
+- UNIQUE 字段：使用 `fake.unique.xxx()` 或手动去重
 
-`docs/init/seed_all.py` 需要：
-1. 按依赖顺序调用各 seed 函数
-2. 支持两种输出模式（在文件顶部用常量控制）：
-   - **SQL 模式**：生成 `.sql` 文件，适合直接导入数据库
-   - **Python 直连模式**：使用数据库驱动直接插入
+### 第四步：生成主入口 `seed_all.py`
 
 ```python
-OUTPUT_MODE = 'sql'  # 'sql' 或 'db'
-DB_CONFIG = {        # OUTPUT_MODE='db' 时使用
-    'host': 'localhost',
-    'database': 'your_db',
-    ...
-}
+from seed_users import seed_users
+from seed_orders import seed_orders
+# ... 按依赖顺序 import
+
+from base_module import BaseMS  # 或 BaseCK
+
+db = MS('your_db_key')  # 用户自行配置
+
+if __name__ == '__main__':
+    seed_users(db)
+    seed_orders(db)
+    # ...
+    print("Done!")
 ```
 
-### 第五步：输出说明
+### 第五步：汇报结果
 
-生成完毕后，向用户汇报：
-- 生成了哪些文件
-- 各表预计行数
-- 执行顺序
-- 如何运行：`python docs/init/seed_all.py`
-- 如有特殊字段无法确定取值，明确列出并询问
+生成完毕后告知用户：
+- 生成了哪些文件、各表预计行数、执行顺序
+- 运行方式：`python docs/init/seed_all.py`
+- **列出所有无法确定取值的字段**，明确询问用户
 
-## 注意事项
-
-- **不要**在脚本里硬编码数据库连接密码，用环境变量或提示用户填写
-- 如果字段含义不明确，优先从字段名+类型推断，实在无法判断时才询问用户
-- UNIQUE 字段使用 `fake.unique.xxx()` 或手动保证唯一性
-- 自增主键不需要手动生成（SQL 模式除外，SQL 中需要显式写入以维持外键引用）
-
+---
 
 ## 数据库操作
-- clickhouse 使用 `from base_module import BaseCK`
-- mysql 使用 `from base_module import BaseMS`
 
-### BaseCK
-``` py
+### ClickHouse — `BaseCK`
+
+```python
 from base_module import BaseCK
+
 db_list = {
-    'ck_21': {
-        'host': ip,
-        'port': 端口, 
-        'user': 账号,
-        'passwd': 密码,
-        'db': 库名,
+    'ck_main': {
+        'host': '',    # 用户填写
+        'port': 9000,
+        'user': '',
+        'passwd': '',
+        'db': '',
     },
 }
+
 class CK(BaseCK):
     def __init__(self, dbname):
-        config = db_list.get(str(dbname))
-        super().__init__(config)
+        super().__init__(db_list.get(str(dbname)))
 ```
 
-### BaseMS
-``` py
+### MySQL — `BaseMS`
+
+```python
 from base_module import BaseMS
 
 db_list = {
-    # MySQL ------------------------
-    '11': {
-        'host': ip,
-        'port': 端口,
-        'user': 账号,
-        'passwd': 密码,
-        'db': 库名,
-        'charset': 'utf8mb4'
-    }, 
+    'ms_main': {
+        'host': '',    # 用户填写
+        'port': 3306,
+        'user': '',
+        'passwd': '',
+        'db': '',
+        'charset': 'utf8mb4',
+    },
 }
+
 class MS(BaseMS):
     def __init__(self, dbname):
-        config = db_list.get(str(dbname))
-        super().__init__(config)
+        super().__init__(db_list.get(str(dbname)))
 ```
 
-## BaseMS和BaseCK的用法
+### 常用 API
 
-### `execute(sql, data=[], *, bind_data=[])`
-**写操作**（INSERT / UPDATE / DELETE / TRUNCATE）
+| 方法 | 用途 | 返回值 |
+|------|------|--------|
+| `execute(sql, data=[])` | 写操作，`data` 为二维列表时批量执行 | - |
+| `queryAll(sql, *, bind_data=[])` | 查多行 | `list[list]` |
+| `queryAll_dict(sql, *, bind_data=[])` | 查多行（字段名为 key） | `list[dict]` |
+| `queryColumn(sql, *, bind_data=[])` | 查单列 | `list[str]` |
+| `queryRow(sql, *, bind_data=[])` | 查单行 | `tuple \| False` |
+| `queryScalar(sql, *, bind_data=[])` | 查单值 | `any \| False` |
+
+**批量写入示例**：
 
 ```python
-# 单条执行
-db.execute("UPDATE user SET name=%s WHERE id=%s", bind_data=["张三", 1])
-
-# 批量执行（executemany）
 db.execute("INSERT INTO user (name, age) VALUES (%s, %s)", [
     ["张三", 18],
     ["李四", 20],
 ])
 ```
 
----
-
-### `queryAll(sql, *, bind_data=[])` → `list[list]`
-**查多行**，返回二维列表
-```python
-rows = db.queryAll("SELECT id, name FROM user WHERE age > %s", bind_data=[18])
-# [[1, "张三"], [2, "李四"]]
-```
-
----
-
-### `queryAll_dict(sql, *, bind_data=[])` → `list[dict]`
-**查多行**，返回字典列表（字段名为 key）
+**带参数查询示例**：
 
 ```python
-rows = db.queryAll_dict("SELECT id, name FROM user WHERE age > %s", bind_data=[18])
-# [{"id": 1, "name": "张三"}, {"id": 2, "name": "李四"}]
+rows = db.queryAll_dict("SELECT * FROM user WHERE age > %s", bind_data=[18])
 ```
-
----
-
-### `queryColumn(sql, *, bind_data=[])` → `list[str]`
-**查单列**，返回字符串列表
-
-```python
-ids = db.queryColumn("SELECT id FROM user WHERE age > %s", bind_data=[18])
-# ["1", "2", "3"]
-```
-
----
-
-### `queryRow(sql, *, bind_data=[])` → `tuple | False`
-**查单行**，无结果返回 `False`
-
-```python
-row = db.queryRow("SELECT id, name FROM user WHERE id=%s", bind_data=[1])
-# (1, "张三") 或 False
-```
-
----
-
-### `queryScalar(sql, *, bind_data=[])` → `any | False`
-**查单值**，无结果返回 `False`
-
-```python
-count = db.queryScalar("SELECT COUNT(*) FROM user")
-name  = db.queryScalar("SELECT name FROM user WHERE id=%s", bind_data=[1])
-# 42 或 "张三" 或 False
-```
-
----
-
