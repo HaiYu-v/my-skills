@@ -13,6 +13,8 @@ description: 创建或搭建Vue前端项目、生成项目脚手架、创建页�
 
 ## 我的要求
 - 界面依据`@docs/prototype`生成
+- 数据通过`src/api`请求获取
+  - 请求请配置好对应的mock, 在`src/mock/`目录下
 - 列出任务列表, 一个任务一个任务的去完成
 - 尽可能的使用UI库提供的组件,图标等组件
 - css样式尽可能的使用TailwindCSS
