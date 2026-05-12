@@ -50,15 +50,6 @@ export function searchUserApi(data: {
 ---
 
 ## 后端生成规范
-
-根据用户技术栈选择对应模板：
-
-- **Java Spring Boot** → 见下方 Java 规范
-- **PHP Yii2** → 见下方 PHP 规范  
-- **Python FastAPI / Flask** → 见下方 Python 规范
-
----
-
 ### Java Spring Boot
 
 **目录结构：**
