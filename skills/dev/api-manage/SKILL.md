@@ -58,12 +58,10 @@ export function searchUserApi(data: {
 src/main/java/.../
 ├── controller/
 │   └── {Entity}Controller.java
-└── model/
-    ├── {entity}/
-    │   ├── {Entity}QueryReq.java
-    │   ├── {Entity}CreateReq.java
-    │   ├── {Entity}UpdateReq.java
-    │   └── {Entity}Resp.java
+└── model/dto/
+    └── {entity}/
+        ├── Req.java
+        └── Resp.java
 ```
 
 **Controller 骨架：**
