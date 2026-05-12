@@ -5,8 +5,9 @@ description: 生成实体类的时候使用此skill
 
 # 我的要求
 - sql依据`@docs/sql`
-- 前端实体类路径：`src/types/{entity}.ts`
-- 后端实体类路径：`src/model/{entity}/{entity}.java`
+- 前端实体类路径：`src/types/{实体}.ts`
+- 后端实体类路径：`src/model/{实体}/{实体}.java`
+  - 实体多包一层目录
 
 # SQL → 实体类 生成 Skill
 
@@ -159,7 +160,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("{table_name}")
-public class {ClassName}PO {
+public class {ClassName} {
     // {注释}
     @TableId(type = IdType.AUTO)
     private {Type} {fieldName};  // 主键字段用 @TableId
@@ -198,7 +199,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("user_info")
-public class UserInfoPO {
+public class UserInfo {
     // 用户ID
     @TableId(type = IdType.AUTO)
     private Long id;

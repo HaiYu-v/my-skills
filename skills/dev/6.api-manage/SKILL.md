@@ -6,7 +6,7 @@ description: 当前后端接口代码生成、请求封装、Controller骨架创
 # 核心目标
 - 依据api文档 `@docs/api`生成前后端接口
 - 前端生成`api/{实体}Api.ts` 文件和`types/{实体}.ts` 文件
-- 后端生成`controller/{实体}Controller` 文件和`model/dto/{实体}`文件
+- 后端生成`controller/{实体}Controller` 文件和`model/{实体}/{实体}Dto`文件
 - 前端使用封装好的`request.ts`实现请求接口,如果没有此文件, 请告知用户而不是新建
 - 仅定义方法的入参和返回类型,不需要实现具体逻辑
 
@@ -14,15 +14,14 @@ description: 当前后端接口代码生成、请求封装、Controller骨架创
 
 ## 4. 前端目录结构
 示例：
+```
 src/
 ├── api/
 |   ├── request.ts
 │   └── user.ts
 └── types/
     └── user.ts
-
-
----
+```
 
 ## 5. 前端接口代码
 要求：
