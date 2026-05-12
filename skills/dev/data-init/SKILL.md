@@ -184,3 +184,72 @@ class MS(BaseMS):
         config = db_list.get(str(dbname))
         super().__init__(config)
 ```
+
+## BaseMS和BaseCK的用法
+
+### `execute(sql, data=[], *, bind_data=[])`
+**写操作**（INSERT / UPDATE / DELETE / TRUNCATE）
+
+```python
+# 单条执行
+db.execute("UPDATE user SET name=%s WHERE id=%s", bind_data=["张三", 1])
+
+# 批量执行（executemany）
+db.execute("INSERT INTO user (name, age) VALUES (%s, %s)", [
+    ["张三", 18],
+    ["李四", 20],
+])
+```
+
+---
+
+### `queryAll(sql, *, bind_data=[])` → `list[list]`
+**查多行**，返回二维列表
+```python
+rows = db.queryAll("SELECT id, name FROM user WHERE age > %s", bind_data=[18])
+# [[1, "张三"], [2, "李四"]]
+```
+
+---
+
+### `queryAll_dict(sql, *, bind_data=[])` → `list[dict]`
+**查多行**，返回字典列表（字段名为 key）
+
+```python
+rows = db.queryAll_dict("SELECT id, name FROM user WHERE age > %s", bind_data=[18])
+# [{"id": 1, "name": "张三"}, {"id": 2, "name": "李四"}]
+```
+
+---
+
+### `queryColumn(sql, *, bind_data=[])` → `list[str]`
+**查单列**，返回字符串列表
+
+```python
+ids = db.queryColumn("SELECT id FROM user WHERE age > %s", bind_data=[18])
+# ["1", "2", "3"]
+```
+
+---
+
+### `queryRow(sql, *, bind_data=[])` → `tuple | False`
+**查单行**，无结果返回 `False`
+
+```python
+row = db.queryRow("SELECT id, name FROM user WHERE id=%s", bind_data=[1])
+# (1, "张三") 或 False
+```
+
+---
+
+### `queryScalar(sql, *, bind_data=[])` → `any | False`
+**查单值**，无结果返回 `False`
+
+```python
+count = db.queryScalar("SELECT COUNT(*) FROM user")
+name  = db.queryScalar("SELECT name FROM user WHERE id=%s", bind_data=[1])
+# 42 或 "张三" 或 False
+```
+
+---
+

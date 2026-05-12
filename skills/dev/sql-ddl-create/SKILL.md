@@ -94,18 +94,18 @@ COMMENT '店铺信息表';
 | 普通整数 | `INT UNSIGNED` / `BIGINT UNSIGNED` |
 | 金额（分） | `BIGINT UNSIGNED` |
 | 时间 | `DATETIME` |
-| 逻辑删除字段 | `is_deleted TINYINT UNSIGNED NOT NULL DEFAULT 0` |
+| 逻辑删除字段 | `dr TINYINT UNSIGNED NOT NULL DEFAULT 0` |
 
 ### MySQL 注意事项
 - 必须指定 `ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`
 - 业务实体表必须有 `create_time` 和 `update_time`
   - `create_time` 加 `DEFAULT CURRENT_TIMESTAMP`
   - `update_time` 加 `ON UPDATE CURRENT_TIMESTAMP`
-- 软删除用 `is_deleted` 字段，不使用物理删除
+- 软删除用 `dr` 字段，不使用物理删除
 - 有唯一业务约束的字段加 `UNIQUE KEY`
 - 高频查询字段加普通索引 `KEY`
 
-> 注意: clickhouse 不需要update_time
+> 注意: 1.clickhouse 不需要update_time 2.没有提到软删除,就不要加dr字段
 
 
 
@@ -124,7 +124,7 @@ CREATE TABLE `user_info` (
   `real_name`   VARCHAR(20)      DEFAULT NULL                COMMENT '用户真实姓名',
   `phone`       CHAR(11)         NOT NULL                    COMMENT '用户手机号',
   `email`       VARCHAR(64)      DEFAULT NULL                COMMENT '用户邮箱地址',
-  `is_deleted`  TINYINT UNSIGNED NOT NULL DEFAULT 0          COMMENT '是否删除：0-未删除，1-已删除',
+  `dr`  TINYINT UNSIGNED NOT NULL DEFAULT 0          COMMENT '是否删除：0-未删除，1-已删除',
   `create_time` DATETIME         NOT NULL DEFAULT CURRENT_TIMESTAMP                    COMMENT '创建时间',
   `update_time` DATETIME         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`user_id`),
