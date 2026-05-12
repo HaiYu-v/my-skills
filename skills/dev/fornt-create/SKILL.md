@@ -89,6 +89,10 @@ src/
 
 ### Vue 组件
 ```vue
+<template>
+  <!-- 根元素只有一个 -->
+</template>
+
 <script setup lang="ts">
 // 1. 导入
 // 2. props/emits 定义
@@ -98,10 +102,6 @@ src/
 // 6. 方法
 // 7. 生命周期
 </script>
-
-<template>
-  <!-- 根元素只有一个 -->
-</template>
 
 <style lang="scss" scoped>
 </style>

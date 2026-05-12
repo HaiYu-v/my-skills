@@ -6,11 +6,8 @@ description: 生成前后端接口代码时必须使用此 skill。触发场景�
 # API 接口代码生成 Skill
 
 ## 执行流程（每次必须按序执行）
-
-1. **确认技术栈** —— 询问或从上下文推断：前端框架、后端语言/框架
-2. **读取 API 文档** —— 查找 `@docs/api` 或用户提供的接口描述
-3. **确认生成范围** —— 前端 / 后端 / 全栈
-4. **按规范生成代码**，输出目录结构 + 完整代码
+- **读取 API 文档** —— 查找 `@docs/api` 或用户提供的接口描述
+- **按规范生成代码**，输出目录结构 + 完整代码
 
 > 如果找不到 `@docs/api`，询问用户提供接口说明，不要自行假设字段。
 
@@ -34,74 +31,19 @@ src/
 ### types/{entity}.ts 模板
 
 ```typescript
-// 列表查询参数
-export interface {Entity}ListQuery {
-  page: number
-  pageSize: number
-  keyword?: string
-  orderBy?: string
-}
+// src/api/user.ts
+import request from '@/utils/request'
 
-// 创建/更新请求体
-export interface Create{Entity}Req {
-  // 根据 API 文档填充字段
-}
-
-export interface Update{Entity}Req extends Partial<Create{Entity}Req> {
-  id: number | string
-}
-
-// 单条记录响应
-export interface {Entity}Item {
-  id: number | string
-  createdAt: string   // yyyy-MM-dd HH:mm:ss
-  updatedAt: string
-  // 根据 API 文档填充字段
-}
-
-// 分页响应
-export interface {Entity}ListResp {
-  list: {Entity}Item[]
-  total: number
-  page: number
-  pageSize: number
-}
-```
-
-### api/{entity}Api.ts 模板
-
-```typescript
-import request from '@/api/request'
-import type {
-  {Entity}ListQuery,
-  Create{Entity}Req,
-  Update{Entity}Req,
-  {Entity}Item,
-  {Entity}ListResp,
-} from '@/types/{entity}'
-
-const BASE = '/api/v1/{entity-path}'
-
-export const {entity}Api = {
-  /** 获取列表（分页） */
-  getList: (params: {Entity}ListQuery) =>
-    request.get<{Entity}ListResp>(BASE, { params }),
-
-  /** 获取详情 */
-  getDetail: (id: number | string) =>
-    request.get<{Entity}Item>(`${BASE}/${id}`),
-
-  /** 创建 */
-  create: (data: Create{Entity}Req) =>
-    request.post<{Entity}Item>(BASE, data),
-
-  /** 更新 */
-  update: (id: number | string, data: Update{Entity}Req) =>
-    request.put<{Entity}Item>(`${BASE}/${id}`, data),
-
-  /** 删除 */
-  delete: (id: number | string) =>
-    request.delete<void>(`${BASE}/${id}`),
+export function searchUserApi(data: {
+    search: string
+    platform_id: number
+    region_id: number
+}) {
+    return request({
+        url: '/backend/creator-analysis/search-user',
+        method: 'post',
+        data
+    })
 }
 ```
 
