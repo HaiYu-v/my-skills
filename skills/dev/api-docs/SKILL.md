@@ -15,7 +15,7 @@ description: 当前后端 API 接口设计、OpenAPI/Swagger 文档生成时使�
 - 不需要生成数据模型schemas
 - 生成的yaml文件能导入apifox或postman
 - 每个字段都要有中文解释
-- 一个界面一个yaml文件
+- 一个实体一个yaml文件
 
 # 输出原则
 
