@@ -14,7 +14,7 @@ description: 生成前后端接口代码时必须使用此 skill。触发场景�
 
 ---
 
-## 前端生成规范（Vue3 + TypeScript）
+## 前端生成规范（TypeScript）
 
 ### 目录结构
 
