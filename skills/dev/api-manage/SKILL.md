@@ -209,7 +209,6 @@ async def delete_{entity}(id: int):
     pass
 ```
 
----
 
 ### 字段规范
 
@@ -218,7 +217,6 @@ async def delete_{entity}(id: int):
 - null vs 空数组：列表字段无数据返回 `[]`，单对象不存在返回 `null`
 - 接口版本：路径统一前缀 `/api/v1/`
 
----
 
 ## 输出要求
 - 必须输出完整目录结构
@@ -226,4 +224,3 @@ async def delete_{entity}(id: int):
 - 仅生成骨架，不实现业务逻辑
 - 注释完整，说明每个方法用途
 - 严格遵循用户项目已有的命名风格
-```
