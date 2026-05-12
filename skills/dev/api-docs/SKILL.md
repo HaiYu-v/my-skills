@@ -7,21 +7,23 @@ description: 当前后端 API 接口设计、OpenAPI/Swagger 文档生成时使�
 - OpenAPI 3.0 YAML文档生成 生成到 `@docs/api`
 - 参考相关实体的信息 `@docs/entity`
 - 参考相关的实体的建表sql语句 `@docs/sql`
+- 参考界面解析 `@docs/prototype`
 
+
+# 我的要求
+- 不需要生成数据模型schemas
+- 生成的yaml文件能导入apifox或postman
+- 一个模块一个yaml文件
 
 # 输出原则
-## 必须输出内容（按顺序）
----
 
 ## 1. 接口分析
 包含：
 - 接口用途
-- 资源模型（Resource）
 - 核心实体字段
 - 请求方式选择原因
 - 权限建议（可选）
 
----
 
 ## 2. RESTful API 设计
 规范：
@@ -58,7 +60,6 @@ POST /resources/batch-delete
 - parameters
 - requestBody
 - responses
-- schemas
 - security（如涉及鉴权）
 
 要求：
