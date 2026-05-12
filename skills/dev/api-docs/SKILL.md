@@ -13,7 +13,8 @@ description: 当前后端 API 接口设计、OpenAPI/Swagger 文档生成时使�
 # 我的要求
 - 不需要生成数据模型schemas
 - 生成的yaml文件能导入apifox或postman
-- 一个模块一个yaml文件
+- 每个字段都要有中文解释
+- 一个界面一个yaml文件
 
 # 输出原则
 
@@ -80,7 +81,7 @@ POST /resources/batch-delete
 统一返回：
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": {
     "list": [],
@@ -99,7 +100,7 @@ POST /resources/batch-delete
 
 ```json
 {
-  "code": 0,
+  "code": 200,
   "message": "success",
   "data": {}
 }
@@ -109,7 +110,7 @@ POST /resources/batch-delete
 
 ```json
 {
-  "code": 40001,
+  "code": 1000,
   "message": "参数错误",
   "data": null
 }
@@ -119,13 +120,8 @@ POST /resources/batch-delete
 
 # 状态码规范
 
-* 0 成功
-* 40000 通用业务失败
-* 40001 参数错误
-* 40100 未授权
-* 40300 无权限
-* 40400 资源不存在
-* 50000 服务端错误
+* 200 成功
+* 1000 失败
 
 ---
 

@@ -4,19 +4,11 @@ description: 当前后端接口代码生成、请求封装、Controller骨架创
 ---
 
 # 核心目标
-围绕“接口”作为系统边界，统一完成以下内容：
-- OpenAPI 3.0 YAML文档生成 生成到 `@docs/api`
-- 参考相关的实体的建表sql语句 `@docs/sql`
-- 前端 API 请求层（api/*.ts）生成
-  - RESTful API 路由设计
-  - 使用request.ts 请求封装规范, 如果没有, 请告知而不是创建
-- 后端 Controller / DTO / VO 骨架生成
-  - Request / Response 参数结构定义
-  - 仅创建接口, 定义好入参,返回值, 不实现具体逻辑
-- 分页、筛选、排序接口规范
-- 状态码 / 错误码 / 异常结构统一
-- 字段命名与数据格式统一
-- 前后端联调一致化
+- 依据api文档 `@docs/api`生成前后端接口
+- 前端生成`api/{实体}Api.ts` 文件
+- 后端生成`controller/{实体}Controller` 文件
+- 前端使用封装好的`request.ts`实现请求接口,如果没有此文件, 请告知用户而不是新建
+- 仅定义方法的入参和返回类型,不需要实现具体逻辑
 
 
 
@@ -238,48 +230,6 @@ src/main/java/.../
 
 ---
 
-# 命名规范
-
-## URL
-
-* 使用复数资源名词
-* 使用 kebab-case
-  示例：
-* /users
-* /user-orders
-
-## JSON 字段
-
-* PHP：snake_case
-* Java / TS：camelCase
-
-## TS 类型
-
-* UserListItem
-* CreateUserRequest
-* UpdateUserRequest
-* UserDetailResponse
-
-## 方法名
-
-* get
-* list
-* create
-* update
-* patch
-* delete
-
----
-
-# 接口设计原则
-
-* 查询用 GET
-* 新增用 POST
-* 全量更新用 PUT
-* 局部更新用 PATCH
-* 删除用 DELETE
-* 禁止动词型 URL（如 /getUserList）
-* 优先资源化命名
 
 ---
 
