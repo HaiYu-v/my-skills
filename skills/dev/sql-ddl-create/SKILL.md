@@ -107,6 +107,12 @@ COMMENT '店铺信息表';
 
 > 注意: clickhouse 不需要update_time
 
+
+
+### 默认值
+- JSON: (JSON_ARRAY())
+
+
 ### MySQL 示例
 ```sql
 -- 创建用户信息表
