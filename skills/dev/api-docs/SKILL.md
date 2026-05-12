@@ -8,6 +8,7 @@ description: 当前后端 API 接口设计、OpenAPI/Swagger 文档生成时使�
 - 参考相关实体的信息 `@docs/entity`
 - 参考相关的实体的建表sql语句 `@docs/sql`
 - 参考界面解析 `@docs/prototype`
+- 接口版本：路径统一前缀 `/api/v1/`
 
 
 # 我的要求

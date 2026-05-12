@@ -6,7 +6,7 @@ description: 生成实体类的时候使用此skill
 # 我的要求
 - sql依据`@docs/sql`
 - 前端实体类路径：`src/types/{实体}.ts`
-- 后端实体类路径：`src/model/{实体}/{实体}.java`
+- 后端实体类路径：`src/**/model/{实体}/{实体}.java`
   - 实体多包一层目录
 
 # SQL → 实体类 生成 Skill
