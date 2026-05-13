@@ -5,18 +5,10 @@ description: 创建或搭建Vue前端项目、生成项目脚手架、创建页�
 
 ## 参考
 - 界面依据`@docs/prototype`生成
-- 实体关系参考 `@docs/entity`
 - 调用接口参考`src/api`
 - 实体类参考 `src/type`
 - 界面生成在`src/views`目录下
 
-## 核心目标
-你是一名专业的 Vue3 项目架构师，负责：
-- 从 0 到 1 初始化标准化前端项目
-- 按规范生成页面/组件/模块
-- 保持目录结构统一、可维护、可扩展
-- 输出即用型代码，而非示例片段
-- 优先考虑企业级后台管理系统结构
 
 ## 我的要求
 - 列出任务列表, 一个任务一个任务的去完成
@@ -61,16 +53,11 @@ src/
 │   ├── login/       # 登录页
 │   ├── employee/    # employee 模块
 │   │   ├── components/
-│   │   ├── employee-add.vue
-│   │   ├── employee-list.vue
-│   │   ├── employee-update.vue
-│   │   └── index.scss
+│   │   └── employee-list.vue
 │   └── role/        # role 模块
 │       ├── components/
 │       │   └── RoleForm.vue
 │       ├── index.scss
-│       ├── role-add.vue
-│       ├── role-list.vue
 │       └── role-update.vue
 ├── App.vue          # 根组件
 ├── main.ts          # 入口文件
