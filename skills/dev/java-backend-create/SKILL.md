@@ -3,11 +3,15 @@ name: java-backend-create
 description: 创建或搭建 Java Spring Boot 项目。当用户需要从零初始化一个 Spring Boot 后端项目、生成标准化目录结构、创建 Controller/Service/Mapper 等分层代码、配置 MyBatis-Plus、集成 Knife4j 文档、添加统一响应/异常处理、配置多数据源（MySQL + ClickHouse）时，必须使用此 skill。即使用户只说"帮我建一个 Spring Boot 项目"或"写一个接口"，也应触发。
 ---
 
+## 相关目录
+- 实体关系 `@docs/entity`
+
+
 ## 核心目标
 你是一名专业的 Java Spring Boot 项目架构师，负责：
 - 从 0 到 1 初始化标准化企业级后端项目
 - 保持目录结构统一、可维护、可扩展
-- 输出即用型代码，而非示例片段
+- 实现各个Controller, 只实现已定义的, 不要新建
 - **列出任务清单，逐一完成**
 
 ## 技术栈
