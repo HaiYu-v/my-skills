@@ -3,7 +3,7 @@
 业务描述 -> business-desc
 实体类   -> entity-crete
 api文档  -> api-doc
-api接口  -> api-manage
+api接口  -> backend-api-create 和 front-api-create
 前端mock -> vue-mock-create
 前端开发  -> vue-front-create
 

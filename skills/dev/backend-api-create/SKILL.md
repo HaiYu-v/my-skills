@@ -45,9 +45,6 @@ import tiktok_shop.service.AffiliateSellerService;
 @RequestMapping("/affiliate-seller")
 public class AffiliateSellerController {
 
-    @Autowired
-    AffiliateSellerService affiliateSellerService;
-
     @Operation(summary = "搜索达人")
     @PostMapping("/search-creator")
     public Result<DTO> searchCreator(){
@@ -68,107 +65,6 @@ public class AffiliateSellerController {
 ```
 
 ---
-
-### PHP Yii2
-
-**目录结构：**
-```
-controllers/
-└── {Entity}Controller.php
-models/
-└── dto/
-    ├── {Entity}QueryForm.php
-    ├── {Entity}CreateForm.php
-    └── {Entity}UpdateForm.php
-```
-
-**Controller 骨架：**
-```php
-<?php
-namespace app\controllers;
-
-use yii\rest\ActiveController;
-use yii\filters\VerbFilter;
-
-class {Entity}Controller extends ActiveController
-{
-    public $modelClass = '{Entity}';
-
-    public function behaviors(): array
-    {
-        return array_merge(parent::behaviors(), [
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'index'  => ['GET'],
-                    'view'   => ['GET'],
-                    'create' => ['POST'],
-                    'update' => ['PUT', 'PATCH'],
-                    'delete' => ['DELETE'],
-                ],
-            ],
-        ]);
-    }
-
-    /** GET /v1/{entity-path} 分页列表 */
-    public function actionIndex(): array { return []; }
-
-    /** GET /v1/{entity-path}/{id} 详情 */
-    public function actionView(int $id): array { return []; }
-
-    /** POST /v1/{entity-path} 创建 */
-    public function actionCreate(): array { return []; }
-
-    /** PUT /v1/{entity-path}/{id} 更新 */
-    public function actionUpdate(int $id): array { return []; }
-
-    /** DELETE /v1/{entity-path}/{id} 删除 */
-    public function actionDelete(int $id): void {}
-}
-```
-
----
-
-### Python FastAPI
-
-**目录结构：**
-```
-app/
-├── routers/
-│   └── {entity}.py
-└── schemas/
-    └── {entity}.py
-```
-
-**Router 骨架：**
-```python
-from fastapi import APIRouter, Query
-from app.schemas.{entity} import (
-    {Entity}ListQuery, Create{Entity}Req, Update{Entity}Req, {Entity}Resp, PageResp
-)
-
-router = APIRouter(prefix="/api/v1/{entity-path}", tags=["{Entity}"])
-
-@router.get("", response_model=PageResp[{Entity}Resp])
-async def list_{entity}(params: {Entity}ListQuery = Query()):
-    pass
-
-@router.get("/{id}", response_model={Entity}Resp)
-async def get_{entity}(id: int):
-    pass
-
-@router.post("", response_model={Entity}Resp)
-async def create_{entity}(body: Create{Entity}Req):
-    pass
-
-@router.put("/{id}", response_model={Entity}Resp)
-async def update_{entity}(id: int, body: Update{Entity}Req):
-    pass
-
-@router.delete("/{id}", status_code=204)
-async def delete_{entity}(id: int):
-    pass
-```
 
 
 ### 字段规范
