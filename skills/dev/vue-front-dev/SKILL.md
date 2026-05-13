@@ -3,7 +3,7 @@ name: vue-front-dev
 description: 创建和迭代页面/界面/组件/路由/store文件时使用。
 ---
 
-## 参考
+## 相关目录
 - 界面依据`@docs/prototype`生成
 - 调用接口参考`src/api`
 - 实体类参考 `src/type`
@@ -12,12 +12,15 @@ description: 创建和迭代页面/界面/组件/路由/store文件时使用。
 
 ## 我的要求
 - 列出任务列表, 一个任务一个任务的去完成
-- ** 不要大幅度的改动布局和样式, 除非用户自己要求 **
-- 请尽可能的使用UI组件库提供的布局组件
-- 请尽可的使用UI 组件库提供的组件,图标等
-- css样式使用TailwindCSS, 尽可能的不写`<style>`
-- 尽可能的使用已有的公共组件
-- 修改或新增界面后, router.ts文件需要更新
+
+## 处理流程
+1. 对布局的设置方式进行修改, 使用UI库提供的布局设置
+2. 对组件进行修改, 尽可的使用UI库提供的组件,如: 图标,表格,菜单等等
+3. 对css进行修改,尽可能的改成TailwindCSS, 少写`<style>`
+4. 修改或新增界面后, router.ts文件需要更新
+
+
+> 注意: 只是改动布局的设置方式, 而不是改动布局, 可以稍稍优化一下
 
 ## 技术栈
 - 框架: Vue3 (Composition API + `<script setup>`)
@@ -63,48 +66,6 @@ src/
 ├── App.vue          # 根组件
 ├── main.ts          # 入口文件
 └── style.scss       # 全局样式
-```
-
-
-## 布局结构
-
-整体采用三段式布局，封装为 `layouts/DefaultLayout.vue`：
-- **顶部导航栏** (NavBar)
-- **左侧侧边栏** (Sidebar)
-  - 支持折叠/展开（宽度切换，图标模式）
-  - 菜单高亮跟随当前路由
-  - 权限过滤（可扩展）
-- **右侧内容区** (Main)，使用 `<router-view />` 渲染
-```
-┌──────────────── Header ────────────────┐
-│ logo | nav |                  userInfo │
-├──── Sidebar ────┬────  Main ───────────┤
-│ menu            │ breadcrumb           │
-│ menu            │ router-view          │
-│ collapse        │                      │
-└────────────────────────────────────────┘
-```
-
-## 代码规范
-
-### Vue 组件
-```vue
-<template>
-  <!-- 根元素只有一个 -->
-</template>
-
-<script setup lang="ts">
-// 1. 导入
-// 2. props/emits 定义
-// 3. store/router
-// 4. 响应式数据
-// 5. 计算属性
-// 6. 方法
-// 7. 生命周期
-</script>
-
-<style lang="scss" scoped>
-</style>
 ```
 
 
