@@ -5,6 +5,7 @@ description: 当用户希望分析html界面原型, 拆组件、梳理页面结�
 
 # 核心目标
 - 依据`@docs/html`提供的原型html, 将原型转化为可开发的前端工程方案
+- 属性字段要依据`@docs/naming.md`提供的规范进行命名
 - 输出结构化开发文档到`docs/prototype`目录下
 - 一个界面一个md文件
 
@@ -87,8 +88,34 @@ resp: KOL & { live_records: LiveStream[] }
 
 ---
 
-### 输出文档结构建议
+### 实体属性命名规范（核心）
+* 全部使用：`snake_case`命名
+* 禁止拼音
+* 禁止模糊命名：
+  * ❌ data
+  * ❌ info
+  * ❌ value
+  * ❌ temp
+* 必须语义明确：
+  * ✅ user_id
+  * ✅ order_total_amt
 
+#### 命名结构
+```txt
+[前缀] + [词根] + [后缀]
+```
+#### 示例
+
+* user_id
+* live_user_cnt
+* pre_order_total_amt
+* video_play_avg_duration
+
+> 注意: 请参考`docs/naming.md`的前缀、词根、后缀进行命名
+
+---
+
+### 输出文档结构建议
 ```
 PRD拆解文档
 ├── 1. 页面列表（路由表）

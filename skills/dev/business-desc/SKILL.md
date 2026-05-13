@@ -127,33 +127,7 @@ description: 当用户需要进行业务实体建模, 对业务实体进行描�
   * RESTRICT
 * 必须说明业务归属
 
-# 五、实体属性命名规范（核心）
 
-## 基础规范
-
-* 全部使用：`snake_case`命名
-* 禁止拼音
-* 禁止模糊命名：
-  * ❌ data
-  * ❌ info
-  * ❌ value
-  * ❌ temp
-* 必须语义明确：
-  * ✅ user_id
-  * ✅ order_total_amt
-
-## 命名结构
-```txt
-[前缀] + [词根] + [后缀]
-```
-## 示例
-
-* user_id
-* live_user_cnt
-* pre_order_total_amt
-* video_play_avg_duration
-
-> 注意: 请参考`docs/naming.md`的前缀、词根、后缀进行命名
 
 
 
