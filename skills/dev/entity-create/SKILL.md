@@ -6,6 +6,7 @@ description: 生成实体类的时候使用此skill
 # 我的要求
 - sql依据`@docs/sql`
 - 前端实体类路径：`src/types/{实体}.ts`
+  - ts 文件名使用小写
 - 后端实体类路径：`src/**/model/entity/{实体}/{实体}.java`
   - 实体多包一层目录
 
