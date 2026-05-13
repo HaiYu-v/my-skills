@@ -6,6 +6,7 @@ description: 生成后端接口代码时必须使用此 skill。触发场景包�
 ## 我的要求
 - 依据API文档`@docs/api`
 - 生成后端controller接口和对应的resp,req类 
+- 不要省略mapping的路径
 
 > 如果找不到 `@docs/api`，询问用户提供接口说明，不要自行假设字段。
 
@@ -63,7 +64,7 @@ public class AffiliateSellerController {
       return Result.success();
     }
 ```
-
+> 注意: 不要省略mapping的路径
 ---
 
 
