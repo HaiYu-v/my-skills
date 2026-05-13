@@ -25,12 +25,8 @@ description: 当用户需要进行业务实体建模, 对业务实体进行描�
 - 一个实体一个 Markdown 文件
 - 文件命名规则：
   - `实体名.md`
-  - 使用业务英文名，采用 PascalCase 或 UpperCamelCase（推荐）
-  - 示例：
-    - `User.md`
-    - `Order.md`
-    - `Product.md`
-    - `LiveRoom.md`
+  - 使用业务英文名，采用 UpperCamelCase
+  - 示例：`User.md`
 
 ## 公共规范文档
 - `docs/naming.md`：属性命名规范（前缀 / 词根 / 后缀）
@@ -83,13 +79,6 @@ description: 当用户需要进行业务实体建模, 对业务实体进行描�
 ## 状态字段
 | 状态字段 | 状态值 | 含义 |
 
-
-## 安全规则
-- 脱敏字段：
-- 禁止更新字段：
-- 审计字段：
-
-
 ## 数据库映射建议
 - 表名：
 - 索引建议：
@@ -119,26 +108,12 @@ description: 当用户需要进行业务实体建模, 对业务实体进行描�
 * 聚合关系（Aggregation）
 * 组合关系（Composition）
 
-## 要求
-* 必须说明依赖方向
-* 必须说明删除策略：
-  * CASCADE
-  * SET NULL
-  * RESTRICT
-* 必须说明业务归属
-
-
-
-
 
 # 禁止事项
 
 * 禁止同义字段并存：
 
   * ❌ user_id / uid
-* 禁止无单位金额：
-  * ❌ price
-  * ✅ price_amt
 * 禁止时间歧义：
   * ❌ time
   * ✅ created_at
