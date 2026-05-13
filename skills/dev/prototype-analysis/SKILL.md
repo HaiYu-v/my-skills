@@ -36,7 +36,7 @@ description: 解析html界面原型, 拆组件、梳理页面结构、生成开�
 行为类型：调用API
 具体行为：
   - 收集 keyword/dateRange/platform 参数
-  - 调用 GET /api/kol/list
+  - 调用 GET /kol/list
   - 结果写入 KolTable 的数据源
   - loading 状态控制
 副作用：重置分页到第1页
@@ -68,7 +68,7 @@ description: 解析html界面原型, 拆组件、梳理页面结构、生成开�
 **接口设计**（每个实体的 CRUD）：
 
 ```
-GET /api/kol/list
+GET /kol/list
 描述：分页查询KOL列表
 req: {
   keyword?: string,
@@ -81,7 +81,7 @@ resp: {
   list: KOL[]
 }
 
-GET /api/kol/{id}
+GET /kol/{id}
 描述：KOL详情
 resp: KOL & { live_records: LiveStream[] }
 ```
