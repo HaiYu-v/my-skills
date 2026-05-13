@@ -1,6 +1,6 @@
 ---
 name: api-docs
-description: 当前后端 API 接口设计、OpenAPI/Swagger 文档生成时使用。
+description: 当前后端 API 接口设计、OpenAPI/Swagger 文档生成,接口文档生成时使用。
 ---
 
 # 核心目标
