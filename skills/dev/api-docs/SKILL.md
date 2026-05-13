@@ -74,10 +74,12 @@ POST /resources/batch-delete
 
 # 分页规范
 统一参数：
-- page
-- page_size
-- keyword
-- order_by
+- total 总数
+- page 当前页
+- page_size 每页大小
+- keyword 模糊搜索
+- order_by（ASC/DESC）
+- sort_by 排序字段
 
 统一返回：
 ```json
