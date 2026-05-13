@@ -62,9 +62,8 @@ description: 检查 API 文档与前端界面解析的一致性，并自动修�
 询问用户是否执行修复，确认后按以下顺序处理：
 
 - 使用skill`api-docs`, 修复API文档
-- 使用skill`front-api-create`, 修复前端API
-- 使用skill`backend-api-create`, 修复后端API
 - 修复完成后，**重新执行 Step 1–3** 进行二次验证，确认所有问题已解决
+- 所有问题解决后. 使用skill`front-api-create`, 修复前端API;使用skill`backend-api-create`, 修复后端API
 
 ---
 
