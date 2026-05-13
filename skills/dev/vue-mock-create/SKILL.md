@@ -5,13 +5,10 @@ description: 在 Vue3 + Vite 项目中使用 vite-plugin-mock 和 mockjs 搭建 
 
 ## 我的要求
 - 使用`vite-plugin-mock` + `mockjs`
+- 接口文档`@docs/api`
 - 接口依据`src/api`
 - 实体关系依据 `docs/entity`
 - 实体表结构依据 `docs/sql`
-
-
-
-
 
 
 ## 一、安装
