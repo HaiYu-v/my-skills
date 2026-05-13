@@ -66,7 +66,6 @@ POST /resources/batch-delete
 
 要求：
 - 可直接用于 Swagger / Apifox / Postman 导入
-- schema 字段完整
 - 示例值清晰
 
 ---
