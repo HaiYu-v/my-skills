@@ -1,6 +1,6 @@
 ---
 name: vue-dev
-description: 当用户需要基于现有项目进行 Vue 页面 / 界面 / 组件 / Pinia Store 的新增、修改、重构、联调、优化时使用。适用于 views 页面开发、components 组件开发、store 状态管理、表单页、列表页、详情页、弹窗、CRUD 页面、原型落地、接口对接、类型接入等场景。
+description: 当用户需要基于现有项目进行 Vue 页面 / 界面 / 组件 / Pinia Store 的新增、修改、迭代、联调、优化时使用。适用于 views 页面开发、components 组件开发、store 状态管理、表单页、列表页、详情页、弹窗、CRUD 页面、原型落地、接口对接、类型接入等场景。
 ---
 
 # 你的身份
