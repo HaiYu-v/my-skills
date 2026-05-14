@@ -5,6 +5,7 @@ description: 创建或搭建 Java Spring Boot 项目。当用户需要从零初�
 
 ## 相关目录
 - 实体关系 `@docs/entity`
+- 建表语句 `@docs/sql`
 - api文档 `@docs/api`
 
 
