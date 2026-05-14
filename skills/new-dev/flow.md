@@ -1,6 +1,6 @@
 ## 规划(plan)->执行(exe)->检验(check) 
 - 命名字典 -> name-dict
-- 原型解析 -> prototype-analysisi
+- 原型解析 -> prototype-analysis
 - 业务描述 -> business-desc
 - 实体类   -> entity-crete
 - api文档  -> api-doc

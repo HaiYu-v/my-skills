@@ -1,5 +1,5 @@
 ---
-name: vue-front-dev
+name: vue-refactor
 description: 创建和迭代页面/界面/组件/路由/store文件时使用。
 ---
 
