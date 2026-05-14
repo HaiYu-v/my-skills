@@ -76,10 +76,18 @@ src/
 // src/store/user.ts
 import { defineStore } from 'pinia'
 
-export const useUserStore = defineStore('user', () => {
-  const info = ref<UserInfo | null>(null)
-  // ...
-  return { info }
+export const useUserStore = defineStore('user', {
+  state: () => ({
+    info: null as UserInfo | null,
+  }),
+  actions: {
+    setInfo(val: UserInfo | null) {
+      this.info = val
+    },
+    clearInfo() {
+      this.info = null
+    },
+  },
 })
 ```
 
