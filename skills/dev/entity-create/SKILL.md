@@ -7,8 +7,10 @@ description: 生成实体类的时候使用此skill
 - sql依据`@docs/sql`
 - 前端实体类路径：`src/types/{实体}.ts`
   - ts 文件名使用小写
+  - 属性命名使用`camelCase`
 - 后端实体类路径：`src/**/model/entity/{实体}/{实体}.java`
   - 实体多包一层目录
+  -  属性命名使用`camelCase`
 
 # SQL → 实体类 生成 Skill
 
@@ -290,8 +292,6 @@ export class UserInfo {
   /** 积分 */
   score: number = 0
 
-  /** 创建时间 */
-  create_time: string | null = null
 }
 ```
 

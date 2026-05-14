@@ -74,7 +74,7 @@ req: {
   keyword?: string,
   platform?: string,
   page: number,
-  page_size: number
+  pageSize: number
 }
 resp: {
   total: number,

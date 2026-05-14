@@ -75,10 +75,10 @@ POST /resources/batch-delete
 统一参数：
 - total 总数
 - page 当前页
-- page_size 每页大小
+- pageSize 每页大小
 - keyword 模糊搜索
-- order_by（ASC/DESC）
-- sort_by 排序字段
+- orderBy（ASC/DESC）
+- sortBy 排序字段
 
 统一返回：
 ```json
