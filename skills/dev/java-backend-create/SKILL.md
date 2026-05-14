@@ -7,6 +7,8 @@ description: 创建或搭建 Java Spring Boot 项目。当用户需要从零初�
 - 实体关系 `@docs/entity`
 - 建表语句 `@docs/sql`
 - api文档 `@docs/api`
+- 实体目录 `model/entity`
+- DTO 目录 `model/dto`
 
 
 ## 我的要求
