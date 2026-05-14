@@ -4,6 +4,7 @@ description: 当用户指定使用这个skill的时候才使用
 ---
 
 ## 相关目录
+- 界面解析 `@docs/prototype`
 - 相关实体 `@docs/entity`
 - api文档 `@docs/api`
 - 建表sql `@docs/sql`
