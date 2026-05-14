@@ -14,6 +14,7 @@ description: 当用户指定使用这个skill的时候才使用
 
 ## 处理流程
 1. 根据用户的要求进行处理, 处理完成后执行后面的步骤
+  - vue前端问题, 使用skill `vue-dev`处理
 2. 判断是否需要修改api文档, 使用skill `api-doc`
 3. 判断是否需要修改前端接口, 使用skill `front-api-create`
 4. 判断是否需要修改后端接口, 使用skill `backend-api-create`
