@@ -5,14 +5,15 @@ description: 创建或搭建 Java Spring Boot 项目。当用户需要从零初�
 
 ## 相关目录
 - 实体关系 `@docs/entity`
+- api文档 `@docs/api`
 
 
-## 核心目标
-你是一名专业的 Java Spring Boot 项目架构师，负责：
-- 从 0 到 1 初始化标准化企业级后端项目
-- 保持目录结构统一、可维护、可扩展
-- 实现各个Controller, 只实现已定义的, 不要新建
-- **列出任务清单，逐一完成**
+## 我的要求
+- 尽可能的使用`mybatis-plus`进行数据库操作
+
+## 处理流程
+- 实现controller接口
+
 
 ## 技术栈
 | 类别 | 技术 |
@@ -59,6 +60,3 @@ src/main/resources/
 └── application-prod.yml     # 生产环境
 ```
 
-## 实现接口
-- 尽可能的使用`mybatis-plus`进行数据库操作
-- 
