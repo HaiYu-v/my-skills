@@ -10,7 +10,8 @@ description: 创建或搭建 Java Spring Boot 项目。当用户需要从零初�
 
 
 ## 我的要求
-- 尽可能的使用`mybatis-plus`进行数据库操作
+- 尽可能的使用`mybatis-plus`的`IService`进行数据库操作
+- service 不需要定义接口 
 
 ## 处理流程
 - 实现controller接口
@@ -45,7 +46,6 @@ src/main/java/{groupId}/{artifactId}/
 │       └── LogAspect.java   # 日志切面
 ├── controller/              # 控制层（按业务模块）
 ├── service/                 # 服务层
-│   └── impl/
 ├── mapper/                  # MyBatis-Plus Mapper
 ├── model/                  # 数据库实体（对应表）
 │   ├── entity/                  # 数据库实体（对应表）
