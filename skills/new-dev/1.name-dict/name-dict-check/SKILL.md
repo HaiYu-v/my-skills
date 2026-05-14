@@ -1,11 +1,7 @@
 ---
 name: name-dict-check
-description: 检查 name-dict-exe skill 的执行结果是否符合预期。当用户说"检查结果"、"验证输出"、"check 一下"、"执行检查"时，且上下文涉及 name-dict-exe 的输出时触发。
+description: 检查 name-dict skill 的执行结果是否符合预期。当用户说"检查结果"、"验证输出"、"check 一下"、"执行检查"时，且上下文涉及 name-dict 的输出时触发。
 ---
-
-# Name-Dict-Exe 执行结果检查
-
-验证 name-dict-exe skill 的输出是否满足所有要求。
 
 ## 检查项
 
@@ -49,4 +45,6 @@ description: 检查 name-dict-exe skill 的执行结果是否符合预期。当�
 | 数据非空 | ✅ | 每个表格都有数据 |
 
 **总结**：X 项通过，Y 项失败，Z 项警告。
-{如有失败项，给出修复建议}
+
+## 失败处理
+如果失败, 则重新执行name-dict
