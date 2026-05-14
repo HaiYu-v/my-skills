@@ -1,5 +1,5 @@
 ---
-name: name-dict-exe
+name: name-dict
 description: 提供一个前缀,词根, 后缀的字典,用于全局实体属性命名的规范。当提到创建命名规范,实体规范, 实体属性定义规范时使用
 ---
 

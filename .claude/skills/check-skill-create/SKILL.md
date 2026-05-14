@@ -34,7 +34,7 @@ description: 为已有的 skill 创建一个配套的检查 skill（check skill�
 
 ### 第三步：生成 check skill
 
-**位置**：与被检查 skill 的 `SKILL.md` 同级目录
+**位置**：与被检查 skill 的 `SKILL.md`所在目录的同级目录
 **命名**：`{skill-name}-check/SKILL.md`
 
 生成的 check skill 结构如下：
