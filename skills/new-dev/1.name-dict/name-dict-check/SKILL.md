@@ -47,4 +47,4 @@ description: 检查 name-dict skill 的执行结果是否符合预期。当用�
 **总结**：X 项通过，Y 项失败，Z 项警告。
 
 ## 失败处理
-如果失败, 则重新执行name-dict
+如果失败, 则重新执行name-dict(最多重复三次)
