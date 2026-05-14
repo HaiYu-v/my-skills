@@ -13,7 +13,8 @@ description: 创建或搭建 Java Spring Boot 项目。当用户需要从零初�
 - 尽可能的使用`mybatis-plus`的`IService`进行数据库操作
   - 基础 `ServiceImpl`
   - 实现 `IService`
-  - 使用 Lambda 风格的，减少 QueryWrapper/UpdateWrapper 的直接使用
+  - 使用 Lambda 风格
+  - 尽量不要使用`Wrapper`
 - service 不需要定义接口 
 - 不要使用`@Autowired`, 使用Lombok的`@RequiredArgsConstructor`
 - 使用`Hutool`进行PO到DTO的转换
