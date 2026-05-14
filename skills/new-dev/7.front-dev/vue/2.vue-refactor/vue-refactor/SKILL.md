@@ -1,6 +1,6 @@
 ---
 name: vue-refactor
-description: 创建和迭代页面/界面/组件/路由/store文件时使用。
+description: 创建和重构页面/界面/组件/路由/store文件时使用。
 ---
 
 ## 相关目录
