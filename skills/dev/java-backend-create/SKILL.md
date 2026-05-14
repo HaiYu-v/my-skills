@@ -10,8 +10,8 @@ description: 创建或搭建 Java Spring Boot 项目。当用户需要从零初�
 
 
 ## 我的要求
-- 尽可能的使用`mybatis-plus`的`IService`进行数据库操作
-  - 基础 `ServiceImpl`
+- 尽可能的使用`mybatis-plus`进行数据库操作
+  - 继承 `ServiceImpl`
   - 实现 `IService`
   - 使用 Lambda 风格
   - 尽量不要使用`Wrapper`
