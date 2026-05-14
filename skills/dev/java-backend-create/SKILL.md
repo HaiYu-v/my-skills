@@ -10,7 +10,6 @@ description: 创建或搭建 Java Spring Boot 项目。当用户需要从零初�
 - 实体目录 `model/entity`
 - DTO 目录 `model/dto`
 
-
 ## 我的要求
 - 尽可能的使用`mybatis-plus`进行数据库操作
   - 继承 `ServiceImpl`
@@ -21,9 +20,12 @@ description: 创建或搭建 Java Spring Boot 项目。当用户需要从零初�
 - 不要使用`@Autowired`, 使用Lombok的`@RequiredArgsConstructor`
 - 使用`Hutool`进行PO到DTO的转换
 
-## 处理流程
-- 实现controller接口
+> 注意: 不要自己创建model的entity或dto等
 
+## 处理流程
+- 实现mapper
+- 实现service
+- 实现controller接口
 
 ## 技术栈
 | 类别 | 技术 |
