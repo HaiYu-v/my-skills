@@ -38,7 +38,7 @@ class Xxx(BaseModel):
 | 字段类型 | Python 类型注解 | 默认值 | 说明 |
 |---------|--------------|--------|------|
 | 整数 / int | `int` | `0` | |
-| 浮点 / float | `int` | `0` | **用整数替代浮点数** |
+| 浮点 / float / double /Decimal | `int` | `0` | **用整数替代浮点数** |
 | 字符串 / str | `str` | `""` | |
 | 布尔 / bool | `bool` | `False` | |
 | 列表 / list / array | `list` | `[]` 用 `field(default_factory=list)` | 需导入 `from pydantic import Field` |
@@ -68,60 +68,11 @@ class Xxx(BaseModel):
 
 ---
 
-## 输出步骤
-
-1. **分析字段**：识别每个字段的名称和类型
-2. **确定导入**：按需收集所有 import 语句（去重）
-3. **生成代码**：输出完整 Python 类，带注释说明
-
----
-
-## 示例
-
-### 输入
-```
-类名: CreatorContentTag
-字段:
-  market_id: int
-  name: str
-  name_cn: str
-  level: int
-  tags: list
-  meta: dict
-  created_at: datetime
-  created_date: date
-  category: CategoryModel
-```
-
-### 输出
-```python
-from __future__ import annotations
-from datetime import date, datetime, timezone
-from typing import Optional
-
-from pydantic import BaseModel, ConfigDict, Field
-
-
-class CreatorContentTag(BaseModel):
-    model_config = ConfigDict(extra="forbid")  # 禁止多余字段
-
-    market_id: int = 0
-    name: str = ""
-    name_cn: str = ""
-    level: int = 0
-    tags: list = Field(default_factory=list)
-    meta: dict = Field(default_factory=dict)
-    created_at: datetime = datetime(1970, 1, 1, tzinfo=timezone.utc)
-    created_date: date = date(1970, 1, 1)
-    category: Optional[CategoryModel] = None
-```
-
----
 
 ## 注意事项
 
 - **不要**直接写 `= []` 或 `= {}`，必须用 `Field(default_factory=...)`
-- **浮点字段一律用 `int` 类型**，默认值 `0`
+- 浮点字段, 金额字段 一律用 `int` 类型**，默认值 `0`
 - 导入语句按 stdlib → pydantic → 本地 的顺序排列
 - 若字段类型不明确，优先推断为 `str`，并在代码注释中标注"类型待确认"
 - 若用户给出的是数据库表 DDL、JSON 样例或已有代码，提取字段后同样应用上述规则
