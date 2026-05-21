@@ -1,6 +1,6 @@
 ---
 name: py-model-create
-description: 根据用户提供的字段列表，快速生成规范的 Pydantic BaseModel 类（Python）。当用户提到"生成 pydantic 类/模型"、"帮我写个 BaseModel"、"模板生成 py 类"、"生成 model 代码"、给出字段列表或数据库表结构并希望输出 Python 类时，必须使用此 skill。支持各种字段类型的默认值规范，生成带有 ConfigDict(extra="forbid") 的标准模板。
+description: 根据用户提供的字段列表，快速生成规范的 Pydantic BaseModel 类（Python）。当用户提到"生成py类/模型"、生成 model 代码"、给出字段列表或数据库表结构并希望输出 Python 类时，必须使用此 skill。
 ---
 
 # Pydantic BaseModel 模板生成
