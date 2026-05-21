@@ -13,10 +13,9 @@ description: 根据用户提供的字段列表，快速生成规范的 Pydantic 
 
 ## 生成规范
 
-### 固定模板结构
+### 参考代码
 
 ```python
-from __future__ import annotations
 from pydantic import BaseModel, ConfigDict
 # 按需导入：from datetime import datetime, date, timedelta, timezone
 
