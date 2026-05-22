@@ -14,12 +14,11 @@ description: 根据用户提供的字段列表，快速生成规范的 Pydantic 
 ## 生成规范
 
 ### 参考代码
-
 ```python
 from pydantic import BaseModel, ConfigDict
 # 按需导入：from datetime import datetime, date, timedelta, timezone
 
-class Xxx(BaseModel):
+class User(BaseModel):
     model_config = ConfigDict(extra="forbid")  # 禁止多余字段
 
     field_name: type = default_value
