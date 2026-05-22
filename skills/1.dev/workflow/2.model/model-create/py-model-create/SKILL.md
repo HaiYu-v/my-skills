@@ -22,6 +22,8 @@ class User(BaseModel):
     model_config = ConfigDict(extra="forbid")  # 禁止多余字段
 
     field_name: type = default_value
+    create_time: datetime = Field(default_factory=lambda: datetime.now())
+    update_time: datetime = Field(default_factory=lambda: datetime.now())
     ...
 ```
 
@@ -46,7 +48,9 @@ class User(BaseModel):
 | 自定义类 / 对象 | `Optional[ClassName]` | `None` | 需导入 `from typing import Optional` |
 | 枚举 / Enum | `Optional[EnumName]` | `None` | |
 
-> **注意**：list 和 dict 类型必须使用 `Field(default_factory=...)` 而不是直接 `= []` 或 `= {}`，避免 Pydantic 共享默认值问题。
+> **注意**
+> 1.list 和 dict 类型必须使用 `Field(default_factory=...)` 而不是直接 `= []` 或 `= {}`，避免 Pydantic 共享默认值问题。
+> 2. create_time和update_time字段，默认值使用`Field(default_factory=lambda: datetime.now())`
 
 ---
 
