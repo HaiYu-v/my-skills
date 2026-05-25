@@ -113,7 +113,6 @@ description: 生成API文档, OpenAPI/Swagger 文档生成,接口文档生成时
 
 ## 方法名
 ```
-add / update / delete / detail / get 
 get 获取/set 设置, 
 add 增加/remove 删除, 
 create 创建/destory 销毁, 
