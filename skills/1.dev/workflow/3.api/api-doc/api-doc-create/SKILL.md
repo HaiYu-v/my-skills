@@ -8,7 +8,7 @@ description: 当前后端 API 接口设计、OpenAPI/Swagger 文档生成,接口
 - 不需要生成数据模型schemas
 - 生成的yaml文件能导入apifox或postman
 - 每个字段都要有中文解释
-- 字段使用小驼峰进行命名
+- 字段使用`lowerCamelCase`进行命名
 
 # 输出原则
 
