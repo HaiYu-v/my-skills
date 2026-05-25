@@ -9,14 +9,8 @@ description: 当用户需要基于现有项目进行 组件 / Pinia Store 的新
 ---
 
 # 相关目录
-- 页面原型参考：`@docs/prototype`
-- 接口定义参考：`src/api`
-- 类型定义参考：`src/type`
-- 页面文件目录：`src/views`
-- 公共组件目录：`src/components`
-- 状态管理目录：`src/store`
-- 路由参考：`src/router`
-- 样式风格：Tailwind / 项目现有规范优先
+- 请参考`界面解析`
+- 样式风格：Tailwind 
 
 ---
 
