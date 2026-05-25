@@ -1,86 +1,51 @@
 ---
 name: code-logic
-description: 分析和解析代码逻辑时使用此 skill。当用户说"帮我分析这段代码"、"梳理一下这个模块的逻辑"、"提取代码里的实体和流程"、"看看这段代码在做什么"时，必须使用此 skill。
+description: 分析代码逻辑、梳理模块流程、提取执行路径时使用此 skill。当用户说"帮我分析这段代码"、"梳理一下这个模块的逻辑"、"提取代码里的流程"、"看看这段代码在做什么"、"画个流程图"、"理清调用链"时，必须使用此 skill。即使用户只是粘贴了一段代码并问"这是干嘛的"，也应触发此 skill。
 ---
 
-## 执行步骤
-按以下顺序依次输出，不要省略任何一步。
+# Code Logic 分析 Skill
 
-## Step 1：涉及实体提取
-实体是代码中出现的核心对象或概念（用户、订单、商品、角色、任务等）。
+## 分析步骤
 
-**输出格式：**
+1. **识别入口**：找到主函数 / 接口入口 / 事件触发点
+2. **梳理主流程**：按执行顺序列出核心步骤，忽略无关细节
+3. **标注分支**：识别条件判断、异常处理、循环逻辑
+4. **识别副作用**：数据库读写、外部调用、文件操作、状态变更
+5. **总结意图**：用一句话说明这段代码的业务目的
 
-**实体名称** — 简短描述
-- 行为/方法1：说明其作用
-- 行为/方法2：说明其作用
+## 输出格式
 
-示例：
-**Order（订单）** — 表示一次用户购买记录
-- create()：创建新订单，校验库存
-- pay()：发起支付，修改状态为已支付
-- cancel()：取消订单，触发退款流程
+根据代码复杂度选择格式：
 
+### 简单代码 → 编号步骤
 
-## Step 2：命名规则提取
-
-提取代码中类、函数、变量、常量、接口、枚举等的命名风格，按类型分组列出。
-
-**输出格式：**
-
-| 类型 | 命名风格 | 示例 |
-|------|----------|------|
-| 类名 | PascalCase | `OrderService`, `UserRepo` |
-| 函数/方法 | camelCase / snake_case | `getUser()` / `get_user()` |
-| 变量 | camelCase / snake_case | `userId` / `user_id` |
-| 常量 | UPPER_SNAKE_CASE | `MAX_RETRY`, `DEFAULT_TIMEOUT` |
-| 接口/类型 | `I` 前缀 / `Type` 后缀 | `IUserService`, `OrderType` |
-| 文件名 | kebab-case / snake_case | `order-service.ts` / `order_service.py` |
-
-只列出代码中实际出现的类型，未出现的不列。
-
-
-## Step 3：处理逻辑流程图
-
-使用 **Graphviz DOT 语法** 描述处理流程，节点名称要对应 Step 1 中提取的实体和行为。
-
-要求：
-- 用中文标注节点和边
-- 区分判断节点（菱形 `shape=diamond`）和处理节点（矩形）
-- 标出主流程和异常/分支流程
-- 用 `subgraph` 按实体分组（如果逻辑复杂）
-
-输出示例：
-
-```dot
-digraph order_flow {
-    rankdir=TB;
-    node [shape=rectangle, fontname="Arial"];
-
-    start [label="开始", shape=ellipse];
-    check_stock [label="校验库存", shape=diamond];
-    create_order [label="Order.create()\n创建订单"];
-    pay [label="Order.pay()\n发起支付", shape=diamond];
-    notify [label="发送通知"];
-    cancel [label="Order.cancel()\n取消订单"];
-    end [label="结束", shape=ellipse];
-
-    start -> check_stock;
-    check_stock -> create_order [label="库存充足"];
-    check_stock -> end [label="库存不足"];
-    create_order -> pay;
-    pay -> notify [label="支付成功"];
-    pay -> cancel [label="支付失败"];
-    notify -> end;
-    cancel -> end;
-}
+```
+1. 接收参数 user_id，校验非空
+2. 查询数据库获取用户信息
+3. 若用户不存在，抛出 404 异常
+4. 返回格式化后的用户对象
 ```
 
+### 复杂代码 → 步骤 + Mermaid 流程图
 
-## 输出结构
+**流程说明：**
+1. xxx
+2. xxx
 
-最终按此顺序输出：
+**流程图：**
+```mermaid
+flowchart TD
+    A[入口: handle_request] --> B{校验 token}
+    B -- 无效 --> C[返回 401]
+    B -- 有效 --> D[查询用户]
+    D --> E{用户存在?}
+    E -- 否 --> F[返回 404]
+    E -- 是 --> G[返回数据]
+```
 
-1. **涉及实体**（Step 1 结果）
-2. **命名规则**（Step 2 表格）
-3. **处理流程图**（Step 3 DOT 代码块）
+## 输出原则
+
+- **精简优先**：只描述做了什么，不解释为什么这样写
+- **业务语言**：用业务术语描述，而非底层实现细节
+- **突出异常路径**：分支、错误处理单独标注
+- **长函数拆段**：超过 50 行的函数，按功能块分段描述
