@@ -17,7 +17,7 @@ description: 分析后端 Controller 或路由文件、提取所有接口逻辑�
 ## 分析步骤
 
 1. 扫描文件，列出全部接口（HTTP 方法 + 路由路径）
-2. 对每个接口单独调用 `business-logic` skill 提取逻辑
+2. 调用 `business-logic` skill 提取接口逻辑
 3. 汇总为统一文档
 
 ---
