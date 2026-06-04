@@ -78,4 +78,4 @@ class User(BaseModel):
 - 导入语句按 stdlib → pydantic → 本地 的顺序排列
 - 若字段类型不明确，优先推断为 `str`，并在代码注释中标注"类型待确认"
 - 若用户给出的是数据库表 DDL、JSON 样例或已有代码，提取字段后同样应用上述规则
-- create_time和update_time字段，默认值使用`Field(default_factory=lambda: datetime.now())`
+- created_at,create_time和updated_at,update_time字段，默认值使用`Field(default_factory=lambda: datetime.now())`
