@@ -3,7 +3,19 @@ name: vue-component-create
 description: 只有指定使用的时候才使用此skill. 创建 Vue3 前端组件时使用。适用场景：新建页面组件、功能模块、表单、列表、弹窗等任何 Vue3 组件开发任务。
 ---
 
-# Vue3 组件开发规范
+## 我的要求
+- 在script的组件文件顶部（import 之后，逻辑之前）下面添加虚拟区域, 所有的js代码都放在这个区域
+
+``` vue
+import ....
+// ========== 虚拟区域 ==========
+
+
+// ========== 虚拟区域 ========== 
+
+// 其它逻辑
+```
+
 
 ## 核心三原则
 
@@ -28,10 +40,9 @@ const user: User = { id: 1, name: '张三' }
 
 ### 2. 虚拟 API 写在文件最开头
 
-组件文件顶部（import 之后，组件定义之前）统一放虚拟 API 函数，返回 Promise 包裹的 mock 数据，模拟真实异步调用。
+统一放虚拟 API 函数，返回 Promise 包裹的 mock 数据，模拟真实异步调用。
 
 ```ts
-// ========== Mock API ==========
 const fetchList = () => Promise.resolve({
   code: 0,
   data: {
@@ -44,7 +55,6 @@ const fetchList = () => Promise.resolve({
 })
 
 const submitForm = (params) => Promise.resolve({ code: 0, msg: '提交成功' })
-// ========== /Mock API ==========
 ```
 
 > 后续对接真实接口时，只需替换此区块，组件逻辑无需改动。
@@ -55,7 +65,7 @@ const submitForm = (params) => Promise.resolve({ code: 0, msg: '提交成功' })
 
 - **可以**调用项目中已有的组件和函数
 - **禁止**直接修改
-- 如需定制行为，复制源码到当前文件，改副本，不动原件
+- 如需定制行为，复制副本到虚拟区域，改副本，不动原件
 
 ```ts
 // ✅ 复用已有工具函数
@@ -71,40 +81,7 @@ const formatDateCustom = (date, fmt = 'MM-DD HH:mm') => {
 // 直接去 @/utils/date.ts 里改 formatDate 的实现
 ```
 
-> 注意: 请严格遵守这个规则, 不要去修改其它地方的代码
-
----
-
-## 文件结构模板
-
-```vue
-<script setup lang="ts">
-import { ref, onMounted } from 'vue'
-// 其他 import...
-
-// ========== Mock API ==========
-const fetchXxx = () => Promise.resolve({ code: 0, data: [] })
-// ========== /Mock API ==========
-
-// 状态
-const loading = ref(false)
-const list = ref([])
-
-// 方法
-const loadData = async () => {
-  loading.value = true
-  const res = await fetchXxx()
-  list.value = res.data
-  loading.value = false
-}
-
-onMounted(loadData)
-</script>
-
-<template>
-  <!-- 模板内容 -->
-</template>
-```
+> 注意: 请严格遵守这个规则, 不要去修改虚拟区域外的代码
 
 ---
 
