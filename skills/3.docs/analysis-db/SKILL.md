@@ -30,12 +30,14 @@ description: 读取项目代码，分析数据库各表的使用情况，输出�
 
 使用下面的sql, 获取某个库下的所有表的name和comment
 
+数据库名称如果不知道, 请向用户询问
+
 ```bash
 SELECT
     TABLE_NAME,
     TABLE_COMMENT
 FROM information_schema.TABLES
-WHERE TABLE_SCHEMA = 'tiktok_media'
+WHERE TABLE_SCHEMA = '{数据库}'
 ORDER BY TABLE_NAME;
 ```
 
