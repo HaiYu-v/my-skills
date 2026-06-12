@@ -15,6 +15,7 @@ description: 读取项目代码，分析数据库各表的使用情况，输出�
 |------|------|------|
 | 表名 | 原始表名 | — |
 | 备注 | ddl的comment后的内容 | — |
+| 介绍 | 一句话介绍表的用途 | — |
 | 状态 | 使用 / 弃用 / 不清楚 | 判断依据见下方 |
 | 表类型 | 可多选 | 底层表 / 业务表 / 爬虫结果表 / 中间临时表 |
 | 涉及主要文件 | 最相关的 1 个文件路径 | — |
@@ -96,15 +97,13 @@ grep -rn "TABLE_NAME\|api_endpoint" --include="*.vue" --include="*.ts" src/ | he
 ## 输出示例
 
 ```
-## 数据库: kol_outreach
-
-| 表名 | 备注 | 状态 | 表类型 | 主要文件 | 主要界面 | 主要项目 |
-|------|------|------|----------|----------|----------|----------|
-| campaign | 推广活动 | 使用 | 业务表 | CampaignService.java | /campaign/list | kol_outreach |
-| campaign_creator | 活动-创作者关联 | 使用 | 业务表 | CampaignCreatorMapper.xml | /campaign/detail | kol_outreach |
-| tiktok_media_raw | TikTok 原始媒体数据 | 使用 | 爬虫结果表 | solidify_daily.py | — | collab_lab_script |
-| tmp_creator_mid | 创作者中间处理表 | 不清楚 | 中间临时表 | soli_creator.py | — | collab_lab_script |
-| message_old | 旧消息表 | 弃用 | — | — | — | — |
+| 表名 | 备注 | 介绍 | 状态 | 表类型 | 主要文件 | 主要界面 | 主要项目 |
+|------|------|------|------|----------|----------|----------|----------|
+| campaign | 推广活动 | 存储营销活动的基本信息和配置 | 使用 | 业务表 | CampaignService.java | /campaign/list | kol_outreach |
+| campaign_creator | 活动-创作者关联 | 记录活动与创作者的多对多关联关系 | 使用 | 业务表 | CampaignCreatorMapper.xml | /campaign/detail | kol_outreach |
+| tiktok_media_raw | TikTok 原始媒体数据 | 存储从 TikTok API 同步的原始媒体信息 | 使用 | 爬虫结果表 | solidify_daily.py | — | collab_lab_script |
+| tmp_creator_mid | 创作者中间处理表 | 数据处理流程中的创作者临时数据 | 不清楚 | 中间临时表 | soli_creator.py | — | collab_lab_script |
+| message_old | 旧消息表 | 已废弃的历史消息表 | 弃用 | — | — | — | — |
 ```
 
 ---
