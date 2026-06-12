@@ -33,13 +33,24 @@ description: 读取项目代码，分析数据库各表的使用情况，输出�
 
 数据库名称如果不知道, 请向用户询问
 
-```bash
+- mysql
+``` sql
 SELECT
     TABLE_NAME,
     TABLE_COMMENT
 FROM information_schema.TABLES
 WHERE TABLE_SCHEMA = '{数据库}'
 ORDER BY TABLE_NAME;
+```
+
+- clickhouse
+``` sql
+SELECT
+    name AS TABLE_NAME,
+    comment AS TABLE_COMMENT
+FROM system.tables
+WHERE database = '{数据库}'
+ORDER BY name;
 ```
 
 ### 2. 判断表状态
