@@ -37,9 +37,12 @@ description: 解析和文档化脚本项目(数据管道、ETL、定时任务等
 针对每个脚本,整理成一张表:
 
 | 脚本 | 功能/职责 | 启动时间 | 取数范围 | 耗时 | 前置依赖(读取) | 后置依赖(写入) |
-|------|----------|---------|---------|------|--------------|--------------|
-| `fetch_orders.py` | 从 TikTok Shop API 拉取订单 | 每天 00:15 | 近 7 天订单 | ~5 min | TikTok Shop API | MySQL `tmp_order_sync` 表 |
-| `solidify_daily.py` | 固化每日汇总数据到 ClickHouse | 每天 02:00 | T-1 日全天 | ~15 min | MySQL `tmp_order_sync`<br>ClickHouse `daily_stats` | ClickHouse `creator_daily` 分区 |
+|------|----------|---------|---------|------|---------------|---------------|
+| schedule.py | APScheduler定时调度器 | 系统启动时 | - | - | - | - |
+| dispatch.py | 发布爬虫任务调度入口 | 每天 00:15 | 当天 | ~1 min | MS('11') tiktok_media.default_creator_monitor<br>MS('11') tiktok_media.record_creator_map | MS('95') media_tiktok_*.video_monitor_task<br>MS('95') media_tiktok_*.creator_video_list_task |
+| dispatch_video.py | 派发视频爬取任务 | 每天 00:15 | T-150天 ~ T日 | ~1 min | CK('56') tiktok_tmp.*.video_list<br>CK('21') tiktok_media.creator | MS('95') media_tiktok_*.video_monitor_task<br>MS('95') media_tiktok_*.creator_video_list_task |
+
+
 
 **字段说明**:
 - **功能/职责**: 用 1 句话说清楚这个脚本做什么(业务语义,不要写"读取文件"这种技术废话)
