@@ -35,11 +35,11 @@ description: 解析和文档化脚本项目（数据管道、ETL、定时任务�
 
 ### 二、入口文件与职责
 
-| 文件 | 职责描述 | 核心逻辑摘要 |
-|------|---------|------------|
-| `main.py` | 整体调度入口，串联各子任务 | 依次调用 A→B→C 模块 |
-| `solidify_daily.py` | 写入每日汇总数据到 ClickHouse | 按日期分区替换 |
-| `fetch_orders.py` | 从 TikTok Shop API 拉取订单 | 游标分页，写入 MySQL 临时表 |
+| 文件 | 职责描述 | 取数范围 | 核心逻辑摘要 |
+|------|---------|---------|------------|
+| `main.py` | 整体调度入口，串联各子任务 | - | 依次调用 A→B→C 模块 |
+| `solidify_daily.py` | 写入每日汇总数据到 ClickHouse | T-1 日 | 按日期分区替换 |
+| `fetch_orders.py` | 从 TikTok Shop API 拉取订单 | 近 7 天 | 游标分页，写入 MySQL 临时表 |
 
 > 规则：每个文件单独一行；职责聚焦业务语义，不要写"读取文件"这种技术废话；核心逻辑摘要控制在 20 字以内。
 
@@ -83,65 +83,82 @@ description: 解析和文档化脚本项目（数据管道、ETL、定时任务�
 
 ### 五、前后依赖
 
+| 脚本 | 上游依赖 | 下游依赖 | 约束说明 |
+|------|---------|---------|---------|
+| `fetch_orders.py` | TikTok Shop API 授权 Token 有效 | `solidify_product.py` 读取 `tmp_order_sync` 表 | 需在 API Token 过期前完成 |
+| `solidify_daily.py` | `fetch_orders.py` 写入 `tmp_order_sync` 表 | `report_generator.py` 读取 ClickHouse `creator_daily` 表<br>`dashboard_refresh.sh` 触发缓存刷新 | 必须在 X 完成后 N 分钟内启动，否则数据窗口错位 |
+
+**整体执行时序**
+
 ```
-[上游]
-fetch_orders.py          ← 依赖 TikTok Shop API 授权 Token 有效
-solidify_product.py      ← 依赖 MySQL tmp_product 表已由采集脚本写入
-
-[本脚本]
-solidify_daily.py
-
-[下游]
-report_generator.py      ← 依赖本脚本写入 ClickHouse creator_daily 后运行
-dashboard_refresh.sh     ← 依赖本脚本完成后触发缓存刷新
+00:15 fetch_orders.py ━━━┓
+                          ┃ 写入 MySQL tmp_order_sync
+                          ┗━━━→ 
+                                ↓
+02:00 solidify_daily.py ━━━━━━┫ 固化到 ClickHouse creator_daily
+                                ↓
+                          ClickHouse 数据就绪
+                                ↓
+03:00 report_generator.py ━━━━┫ 生成报表
+                                ↓
+03:30 dashboard_refresh.sh ━━━┫ 刷新缓存
+                                ↓
+                          前端/BI 完整数据可用
 ```
 
-用文字补充说明关键依赖约束（如：必须在 X 完成后 N 分钟内启动，否则数据窗口错位）。
+**关键约束**
+
+- `fetch_orders.py` 与下游竞态：00:15 写入数据，假设 `solidify_daily.py` 在 02:00 启动，时间窗口需确保数据完整性
+- `solidify_daily.py` 数据完整性风险：依赖上游已将数据完整写入 MySQL，无前置检查
+- `report_generator.py` 必须在固化完成后执行：需要从 ClickHouse 读取固化后的数据
 
 ---
 
 ### 六、问题 / 风险 / 优化点
 
+**fetch_orders.py**
+
 | 类型 | 位置 | 描述 | 严重程度 |
 |------|------|------|---------|
-| 🐛 Bug | `solidify_daily.py:L45` | NaN 未处理，写入 ClickHouse 时报 type error | 🔴 高 |
-| ⚠️ 风险 | `fetch_orders.py` | API Token 过期无重试，静默失败导致数据缺失 | 🔴 高 |
-| ⚠️ 风险 | 整体调度 | 无幂等校验，重复执行会重复写入 | 🟡 中 |
-| 🚀 优化 | `solidify_daily.py:L80-120` | 循环逐行 INSERT，改 executemany 或批量写入性能提升 10x | 🟡 中 |
-| 🚀 优化 | ClickHouse 查询 | 使用 OFFSET 分页，数据量大时内存溢出，改游标分页 | 🟡 中 |
+| ⚠️ 风险 | 整体 | API Token 过期无重试，静默失败导致数据缺失 | 🔴 高 |
+| ⚠️ 风险 | 写入逻辑 | 无幂等校验，重复执行会重复写入 | 🟡 中 |
 | 💡 建议 | 日志 | 缺少结构化日志，排查困难，建议加 elapsed_time 打点 | 🟢 低 |
 
-严重程度：🔴 高（会导致数据错误/脚本失败） / 🟡 中（影响性能或稳定性） / 🟢 低（体验优化）
+**solidify_daily.py**
+
+| 类型 | 位置 | 描述 | 严重程度 |
+|------|------|------|---------|
+| 🐛 Bug | `L45` | NaN 未处理，写入 ClickHouse 时报 type error | 🔴 高 |
+| 🚀 优化 | `L80-120` | 循环逐行 INSERT，改 executemany 或批量写入性能提升 10x | 🟡 中 |
+| 🚀 优化 | ClickHouse 查询 | 使用 OFFSET 分页，数据量大时内存溢出，改游标分页 | 🟡 中 |
+
+> **严重程度说明**：🔴 高（会导致数据错误/脚本失败） / 🟡 中（影响性能或稳定性） / 🟢 低（体验优化）
 
 ---
 
 ### 七、跑数要点
 
-这一节聚焦"运行这个脚本时需要知道的关键信息"：
+**fetch_orders.py**
 
-**幂等性**
-- 是否支持重跑？重跑会不会产生脏数据？
-- ClickHouse 分区替换（REPLACE PARTITION）天然幂等；MySQL TRUNCATE+INSERT 也幂等；直接 INSERT 不幂等。
+- **幂等性**：⚠️ 直接 INSERT 不幂等，重跑会重复写入
+- **时间参数**：默认昨天，支持 `--date` 参数
+- **重跑/补跑策略**：支持 `--start_date` / `--end_date` 补跑，需先清空目标表
+- **关键参数**：
+  - `--date`: 昨天
+  - `--batch_size`: 1000
+- **异常处理**：中断后部分数据已写入，无事务保护；⚠️ 无告警
 
-**时间参数**
-- 脚本默认跑哪天的数据？T-1 还是当天？
-- 如何手动指定日期范围（命令行参数 / 环境变量）？
+**solidify_daily.py**
 
-**重跑/补跑策略**
-- 如何补跑历史数据？是否支持传入 `start_date` / `end_date`？
-- 补跑时是否需要暂停下游任务？
+- **幂等性**：✅ REPLACE PARTITION 天然幂等
+- **时间参数**：默认 T-1，支持 `--date` 参数
+- **重跑/补跑策略**：可直接重跑任意历史日期，无需暂停下游
+- **关键参数**：
+  - `--date`: 昨天
+  - `--dry_run`: False
+- **异常处理**：中断后数据回滚，分区级事务；钉钉告警
 
-**关键参数说明**
-
-| 参数 | 默认值 | 含义 |
-|------|--------|------|
-| `--date` | 昨天 | 指定跑数日期 |
-| `--batch_size` | 1000 | 每批写入条数 |
-| `--dry_run` | False | 只读不写，用于验证 |
-
-**异常处理**
-- 脚本中断后数据状态是什么？是否有事务保护？
-- 失败告警方式（钉钉 / 邮件 / 无）？
+> **规则说明**：每个脚本单独列出；幂等性需明确写入方式（REPLACE PARTITION / TRUNCATE+INSERT / 直接 INSERT）；时间参数说明默认值和如何指定；关键参数只列最重要的 2-3 个；异常处理说明中断后状态和告警方式。输出格式可采用表格或列表。
 
 ---
 
